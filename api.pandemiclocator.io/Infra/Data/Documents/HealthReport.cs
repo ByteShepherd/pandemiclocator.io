@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using models.pandemiclocator.io.Documents.Enums;
+using System.ComponentModel.DataAnnotations;
+using api.pandemiclocator.io.Infra.Data.Enums;
 
-namespace models.pandemiclocator.io.Documents
+namespace api.pandemiclocator.io.Infra.Data.Documents
 {
     public class HealthReport
     {
+        [Required]
+        [MinLength(1)]
         public string Identifier { get; }
 
         [Required]
@@ -14,7 +15,11 @@ namespace models.pandemiclocator.io.Documents
 
         [Required]
         public ReportSource Source { get; }
+
+        [Required]
         public (double latidude, double longitude) Coordinate { get; }
+
+        [Required]
         public DateTime When { get; }
 
         public HealthReport(string identifier, HealthStatus status, ReportSource source, (double latidude, double longitude) coordinate, DateTime when)

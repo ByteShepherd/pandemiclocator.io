@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using models.pandemiclocator.io.Tables;
+using api.pandemiclocator.io.Infra.Data.Tables;
 
 namespace api.pandemiclocator.io.Infra.Initializators
 {

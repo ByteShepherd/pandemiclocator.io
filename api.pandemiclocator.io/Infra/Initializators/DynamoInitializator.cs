@@ -1,5 +1,5 @@
-﻿using infra.api.pandemiclocator.io;
-using models.pandemiclocator.io.Tables;
+﻿using api.pandemiclocator.io.Infra.Data.Tables;
+using infra.api.pandemiclocator.io;
 
 namespace api.pandemiclocator.io.Infra.Initializators
 {
