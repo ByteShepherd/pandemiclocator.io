@@ -12,6 +12,10 @@ namespace api.pandemiclocator.io.Infra.Commands
         public double Latitude { get; }
         public double Longitude { get; }
 
+        protected CreateHealthReportCommand()
+        {
+        }
+
         public CreateHealthReportCommand(string identifier, HealthStatus status, ReportSource source, double latitude, double longitude)
         {
             Identifier = identifier;
