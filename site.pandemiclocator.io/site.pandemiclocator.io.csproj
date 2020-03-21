@@ -10,6 +10,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\commands.pandemiclocator.io\commands.pandemiclocator.io.csproj" />
+    <ProjectReference Include="..\models.pandemiclocator.io\models.pandemiclocator.io.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\commands.pandemiclocator.io\commands.pandemiclocator.io.csproj" />
+    <ProjectReference Include="..\events.pandemiclocator.io\events.pandemiclocator.io.csproj" />
+    <ProjectReference Include="..\models.pandemiclocator.io\models.pandemiclocator.io.csproj" />
   </ItemGroup>
 
 
