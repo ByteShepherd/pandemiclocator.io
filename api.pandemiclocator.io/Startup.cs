@@ -7,7 +7,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Internal;
 using Amazon.Runtime;
-using api.pandemiclocator.io.models.Initializators;
+using api.pandemiclocator.io.Infra.Initializators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using models.pandemiclocator.io;
+using models.pandemiclocator.io.Tables;
 
-namespace api.pandemiclocator.io.models.Initializators
+namespace api.pandemiclocator.io.Infra.Initializators
 {
     public class PandemicInitializator
     {
@@ -14,7 +11,7 @@ namespace api.pandemiclocator.io.models.Initializators
         {
             return new CreateTableRequest
             {
-                TableName = Pandemic.TableName,
+                TableName = PandemicTable.TableName,
                 ProvisionedThroughput = new ProvisionedThroughput
                 {
                     ReadCapacityUnits = 3,
@@ -24,7 +21,7 @@ namespace api.pandemiclocator.io.models.Initializators
                 {
                     new KeySchemaElement
                     {
-                        AttributeName = nameof(Pandemic.id),
+                        AttributeName = nameof(PandemicTable.id),
                         KeyType = KeyType.HASH
                     }
                 },
@@ -32,7 +29,7 @@ namespace api.pandemiclocator.io.models.Initializators
                 {
                     new AttributeDefinition
                     {
-                        AttributeName = nameof(Pandemic.id),
+                        AttributeName = nameof(PandemicTable.id),
                         AttributeType = ScalarAttributeType.S
                     }
                 }
