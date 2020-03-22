@@ -21,30 +21,18 @@ namespace api.pandemiclocator.io.Controllers
         {
         }
 
-        //[HttpPost]
-        //public async Task<(bool isSucces, string message)> WebReportWithCoordinates(CreateHealthReportCommand command, CancellationToken cancellationToken)
-        //{
-        //    var model = command.ToModel();
-        //    if (model == null || !TryValidateModel(model, nameof(command)))
-        //    {
-        //        return (false, "Report is missing answers");
-        //    }
-
-        //    await Context.SaveAsync(model, cancellationToken);
-        //    return (true, "Report made");
-        //}
-
         [HttpPost]
-        public async Task<bool> WebReportWithCoordinates(CreateHealthReportCommand command)
+        public async Task<(bool isSucces, string message)> WebReportWithCoordinates(CreateHealthReportCommand command, CancellationToken cancellationToken)
         {
-            var model = command.ToModel();
-            if (model == null || !TryValidateModel(model, nameof(command)))
+            if (command == null || !TryValidateModel(command, nameof(command)))
             {
-                return false;
+                return (false, "Report is missing answers");
             }
 
-            await Context.SaveAsync(model, CancellationToken.None);
-            return true;
+            var model = command.ToModel();
+
+            await Context.SaveAsync(model, cancellationToken);
+            return (true, "Report made");
         }
     }
 }

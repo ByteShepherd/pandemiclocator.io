@@ -1,34 +1,41 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.Runtime.Internal.Auth;
 using api.pandemiclocator.io.Infra.Data.Enums;
+using api.pandemiclocator.io.Infra.Data.Tables;
 
 namespace api.pandemiclocator.io.Infra.Data.Documents
 {
-    public class HealthReport
+    [DynamoDBTable(nameof(HealthReport))]
+    public class HealthReport : IPandemicDynamoTable
     {
-        [Required]
-        [MinLength(1)]
-        public string Identifier { get; }
-
-        [Required]
-        public HealthStatus Status { get; }
-
-        [Required]
-        public ReportSource Source { get; }
-
-        [Required]
-        public (double latidude, double longitude) Coordinate { get; }
-
-        [Required]
-        public DateTime When { get; }
-
-        public HealthReport(string identifier, HealthStatus status, ReportSource source, (double latidude, double longitude) coordinate, DateTime when)
+        public HealthReport()
         {
+            (this as IPandemicDynamoTable).GenerateNewId();
+        }
+
+        public HealthReport(string identifier, HealthStatus status, ReportSource source, double latitude, double longitude, DateTime when)
+        {
+            (this as IPandemicDynamoTable).GenerateNewId();
             Identifier = identifier;
             Status = status;
             Source = source;
-            Coordinate = coordinate;
+            Latitude = latitude;
+            Longitude = longitude;
             When = when;
         }
+
+        [DynamoDBHashKey]
+        public string Id { get; set; }
+
+        public string Identifier { get; set; }
+        public HealthStatus Status { get; set; }
+        public ReportSource Source { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public DateTime When { get; set; }
+
+        
     }
 }

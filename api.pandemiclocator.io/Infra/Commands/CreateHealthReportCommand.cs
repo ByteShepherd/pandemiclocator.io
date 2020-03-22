@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using api.pandemiclocator.io.Infra.Data.Documents;
 using api.pandemiclocator.io.Infra.Data.Enums;
 
@@ -6,24 +7,21 @@ namespace api.pandemiclocator.io.Infra.Commands
 {
     public class CreateHealthReportCommand
     {
-        public string Identifier { get; }
-        public HealthStatus Status { get; }
-        public ReportSource Source { get; }
-        public double Latitude { get; }
-        public double Longitude { get; }
+        [Required]
+        [MinLength(1)]
+        public string Identifier { get; set; }
 
-        protected CreateHealthReportCommand()
-        {
-        }
+        [Required]
+        public HealthStatus Status { get; set; }
 
-        public CreateHealthReportCommand(string identifier, HealthStatus status, ReportSource source, double latitude, double longitude)
-        {
-            Identifier = identifier;
-            Status = status;
-            Source = source;
-            Latitude = latitude;
-            Longitude = longitude;
-        }
+        [Required]
+        public ReportSource Source { get; set; }
+
+        [Required]
+        public double Latitude { get; set; }
+
+        [Required]
+        public double Longitude { get; set; }
     }
 
     public static class CreateHealthReportCommandExtensions
@@ -40,7 +38,8 @@ namespace api.pandemiclocator.io.Infra.Commands
                 command.Identifier,
                 command.Status,
                 command.Source,
-                (command.Latitude, command.Longitude),
+                command.Latitude, 
+                command.Longitude,
                 DateTime.UtcNow
             );
         }
