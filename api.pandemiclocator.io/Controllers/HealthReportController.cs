@@ -44,7 +44,7 @@ namespace api.pandemiclocator.io.Controllers
                 return cachedReport;
             }
 
-            //TODO: disparar evento
+            //TODO: disparar evento e o evento é quem deve fazer query
             var model = await Context.GetByIdAsync<HealthReport>(key, cancellationToken);
             if (model == null)
             {
