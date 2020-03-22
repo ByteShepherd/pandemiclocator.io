@@ -22,7 +22,7 @@ namespace api.pandemiclocator.io.Controllers
         }
 
         [HttpGet]
-        public async Task<PandemicResponse<ReadHealthReportCommand>> WebListCoordinates(string key, CancellationToken cancellationToken)
+        public async Task<PandemicResponse<ReadHealthReportCommand>> GetWebReport(string key, CancellationToken cancellationToken)
         {
             ReadHealthReportCommand response = null;
             if (string.IsNullOrEmpty(key))
@@ -43,7 +43,7 @@ namespace api.pandemiclocator.io.Controllers
         }
 
         [HttpPost]
-        public async Task<PandemicResponse<CreateHealthReportCommand>> WebReportWithCoordinates(CreateHealthReportCommand command, CancellationToken cancellationToken)
+        public async Task<PandemicResponse<CreateHealthReportCommand>> NewWebReport(CreateHealthReportCommand command, CancellationToken cancellationToken)
         {
             if (command == null || !TryValidateModel(command, nameof(command)))
             {
