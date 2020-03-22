@@ -36,6 +36,8 @@ namespace api.pandemiclocator.io.Controllers
                 return response.ToNotFoundPandemicResponse();
             }
 
+            //TODO: pegar do cache:
+
             response = model.ToReadCommand();
 
             var result = response.ToSuccessPandemicResponse();
@@ -51,6 +53,8 @@ namespace api.pandemiclocator.io.Controllers
             }
 
             var model = command.ToModel();
+
+            //TODO: pegar mandar mensageria:
 
             await Context.SaveAsync(model, cancellationToken);
             var result = command.ToSuccessPandemicResponse();

@@ -15,10 +15,11 @@ namespace api.pandemiclocator.io.Infra.Data.Documents
             (this as IPandemicDynamoTable).GenerateNewId();
         }
 
-        public HealthReport(string identifier, HealthStatus status, ReportSource source, double latitude, double longitude, DateTime when)
+        public HealthReport(string identifier, HealthStatus status, int quantity, ReportSource source, double latitude, double longitude, DateTime when)
         {
             (this as IPandemicDynamoTable).GenerateNewId();
             Identifier = identifier;
+            Quantity = quantity;
             Status = status;
             Source = source;
             Latitude = latitude;
@@ -30,6 +31,7 @@ namespace api.pandemiclocator.io.Infra.Data.Documents
         public string Id { get; set; }
 
         public string Identifier { get; protected set; }
+        public int Quantity { get; protected set; }
         public HealthStatus Status { get; protected set; }
         public ReportSource Source { get; protected set; }
         public double Latitude { get; protected set; }
