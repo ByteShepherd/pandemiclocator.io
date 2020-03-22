@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Commands;
@@ -9,6 +11,8 @@ using api.pandemiclocator.io.Infra.Data.Documents;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace api.pandemiclocator.io.Controllers
@@ -16,9 +20,12 @@ namespace api.pandemiclocator.io.Controllers
     [ApiController]
     public class HealthReportController : PandemicWithContextControllerBase
     {
-        public HealthReportController(IPandemicContext context, IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) 
+        private readonly IPandemicCache _cache;
+
+        public HealthReportController(IPandemicCache cache, IPandemicContext context, IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) 
             : base(context, hostInstanceProvider, dateTimeProvider)
         {
+            _cache = cache;
         }
 
         [HttpGet]
@@ -30,17 +37,29 @@ namespace api.pandemiclocator.io.Controllers
                 return response.ToBadRequestPandemicResponse("Invalid Key!");
             }
 
+            //########## OBTER CACHE
+            var cachedReport = await _cache.GetCacheAsync<PandemicResponse<ReadHealthReportCommand>>(key, cancellationToken);
+            if (cachedReport != null)
+            {
+                return cachedReport;
+            }
+
+            //TODO: disparar evento
             var model = await Context.GetByIdAsync<HealthReport>(key, cancellationToken);
             if (model == null)
             {
                 return response.ToNotFoundPandemicResponse();
             }
 
-            //TODO: pegar do cache:
-
+            //########## INSERIR CACHE
             response = model.ToReadCommand();
-
             var result = response.ToSuccessPandemicResponse();
+
+            if (result != null && result.Status == HttpStatusCode.OK)
+            {
+                await _cache.SetCacheAsync(key, result, cancellationToken);
+            }
+
             return result;
         }
 

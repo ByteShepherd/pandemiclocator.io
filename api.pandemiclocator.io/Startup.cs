@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -62,7 +64,7 @@ namespace api.pandemiclocator.io
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                    options.JsonSerializerOptions.IgnoreReadOnlyProperties = false; 
+                    options.JsonSerializerOptions.IgnoreReadOnlyProperties = false;
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.WriteIndented = false;
                     options.JsonSerializerOptions.AllowTrailingCommas = true;
@@ -81,6 +83,22 @@ namespace api.pandemiclocator.io
                     });
             });
 
+            //################# REDIS
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("RedisConnection");
+                options.InstanceName = "Employees:";
+            });
+
+
+            //############### COMPRESSION
+            services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; })
+                .AddResponseCompression(options =>
+                {
+                    options.Providers.Add<GzipCompressionProvider>();
+                    options.EnableForHttps = true;
+                });
+
             //###### PANDEMIC
             ConfigurePandemicServices(services);
         }
@@ -88,6 +106,8 @@ namespace api.pandemiclocator.io
         private void ConfigurePandemicServices(IServiceCollection services)
         {
             services.AddScoped<IPandemicContext, PandemicContext>();
+            services.AddScoped<IPandemicCache, PandemicCache>();
+
             services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
