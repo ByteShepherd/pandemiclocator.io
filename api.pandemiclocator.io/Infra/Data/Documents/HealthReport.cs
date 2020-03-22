@@ -29,12 +29,12 @@ namespace api.pandemiclocator.io.Infra.Data.Documents
         [DynamoDBHashKey]
         public string Id { get; set; }
 
-        public string Identifier { get; set; }
-        public HealthStatus Status { get; set; }
-        public ReportSource Source { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public DateTime When { get; set; }
+        public string Identifier { get; protected set; }
+        public HealthStatus Status { get; protected set; }
+        public ReportSource Source { get; protected set; }
+        public double Latitude { get; protected set; }
+        public double Longitude { get; protected set; }
+        public DateTime When { get; protected set; }
 
         
     }

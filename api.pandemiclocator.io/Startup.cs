@@ -63,8 +63,9 @@ namespace api.pandemiclocator.io
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                     options.JsonSerializerOptions.IgnoreReadOnlyProperties = true; 
-                    options.JsonSerializerOptions.IgnoreNullValues = false;
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.WriteIndented = false;
+                    options.JsonSerializerOptions.AllowTrailingCommas = true;
                 });
 
             //############### CORS

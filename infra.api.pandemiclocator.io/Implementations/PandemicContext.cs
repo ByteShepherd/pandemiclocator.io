@@ -12,6 +12,11 @@ namespace infra.api.pandemiclocator.io.Implementations
         private AmazonDynamoDBClient _client;
         private DynamoDBContext _context;
         
+        public Task<T> GetByIdAsync<T>(string key, CancellationToken cancellationToken)
+        {
+            return _context.LoadAsync<T>(key, cancellationToken);
+        }
+
         public Task SaveAsync<T>(T document, CancellationToken cancellationToken)
         {
             return _context.SaveAsync(document, cancellationToken);
