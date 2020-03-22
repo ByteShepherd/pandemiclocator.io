@@ -24,7 +24,7 @@ namespace api.pandemiclocator.io.Infra.Controllers
         [HttpGet]
         public string HealthCheck()
         {
-            var cloud = HostInstance.IsRunningOnCloud ? "@AWS" : "";
+            var cloud = HostInstance.IsRunningOnCloud ? "@AWS" : "@Docker";
             return $"[{HostInstance.HostInstanceId}{cloud}] {DateTimeProvider.Now}";
         }
     }
