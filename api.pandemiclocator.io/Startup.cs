@@ -87,7 +87,7 @@ namespace api.pandemiclocator.io
             services.AddDistributedRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("RedisConnection");
-                options.InstanceName = "Employees:";
+                options.InstanceName = "pandemic:";
             });
 
 

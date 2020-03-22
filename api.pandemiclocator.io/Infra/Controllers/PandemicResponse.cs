@@ -8,9 +8,13 @@ namespace api.pandemiclocator.io.Infra.Controllers
 {
     public class PandemicResponse<T>
     {
-        public HttpStatusCode Status { get; }
-        public T Data { get; }
-        public string Message { get; }
+        public HttpStatusCode Status { get; set; }
+        public T Data { get; set; }
+        public string Message { get; set; }
+
+        public PandemicResponse()
+        {
+        }
 
         public PandemicResponse(HttpStatusCode status, T data, string message)
         {

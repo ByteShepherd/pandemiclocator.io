@@ -7,6 +7,10 @@ namespace api.pandemiclocator.io.Infra.Commands
 {
     public class ReadHealthReportCommand
     {
+        public ReadHealthReportCommand()
+        {
+        }
+
         public ReadHealthReportCommand(HealthStatus status, int quantity, ReportSource source, double latitude, double longitude, DateTime when)
         {
             Quantity = quantity;
@@ -17,12 +21,12 @@ namespace api.pandemiclocator.io.Infra.Commands
             When = when;
         }
 
-        public int Quantity { get; }
-        public HealthStatus Status { get; }
-        public ReportSource Source { get; }
-        public double Latitude { get; }
-        public double Longitude { get; }
-        public DateTime When { get; }
+        public int Quantity { get; set; }
+        public HealthStatus Status { get; set; }
+        public ReportSource Source { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public DateTime When { get; set; }
     }
 
     public class CreateHealthReportCommand

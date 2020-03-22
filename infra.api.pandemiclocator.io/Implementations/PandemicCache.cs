@@ -19,6 +19,7 @@ namespace infra.api.pandemiclocator.io.Implementations
 
         public async Task<bool> SetCacheAsync<T>(string key, T item, CancellationToken cancellationToken) where T : class
         {
+            key = $"{typeof(T).Name}.{key}";
             if (string.IsNullOrEmpty(key) || item == null)
             {
                 return false;
@@ -43,14 +44,17 @@ namespace infra.api.pandemiclocator.io.Implementations
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                //TODO: log
+
                 return false;
             }
         }
 
         public async Task<T> GetCacheAsync<T>(string key, CancellationToken cancellationToken) where T : class
         {
+            key = $"{typeof(T).Name}.{key}";
             T itemPoco = null;
             var itemJson = await _cache.GetStringAsync(key, cancellationToken);
             if (!string.IsNullOrEmpty(itemJson))
@@ -60,8 +64,10 @@ namespace infra.api.pandemiclocator.io.Implementations
                     itemPoco = JsonSerializer.Deserialize<T>(itemJson);
                     return itemPoco;
                 }
-                catch
+                catch(Exception ex)
                 {
+                    //TODO: log
+
                     //Itens com problema de deserialização devem ser eliminados
                     await _cache.RemoveAsync(key, cancellationToken);
                 }
