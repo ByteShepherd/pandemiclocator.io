@@ -140,20 +140,24 @@ namespace api.pandemiclocator.io
                 .UseRequestLocalization()
                 /*TODO:.UseExceptionHandler()*/;
 
-            //Registrar evento de shutdown
-            applicationLifetime.ApplicationStopping.Register(OnShutdown);
-
             DynamoInitializator.Initialize(config);
 
-            OnStartup();
+            applicationLifetime.ApplicationStarted.Register(OnStarted);
+            applicationLifetime.ApplicationStopping.Register(OnShuttingdown);
+            applicationLifetime.ApplicationStopped.Register(OnStopped);
         }
 
-        public virtual void OnStartup()
+        public virtual void OnStarted()
         {
             //this code is called when the application starts
         }
 
-        public virtual void OnShutdown()
+        public virtual void OnShuttingdown()
+        {
+            //this code is called when the application starts
+        }
+
+        public virtual void OnStopped()
         {
             //this code is called when the application stops
         }
