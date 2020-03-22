@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
 
-namespace infra.api.pandemiclocator.io
+namespace infra.api.pandemiclocator.io.Providers
 {
     public class DynamoProvider
     {

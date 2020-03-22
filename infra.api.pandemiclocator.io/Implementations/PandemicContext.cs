@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using infra.api.pandemiclocator.io.Interfaces;
+using infra.api.pandemiclocator.io.Providers;
 
-namespace infra.api.pandemiclocator.io
+namespace infra.api.pandemiclocator.io.Implementations
 {
     public class PandemicContext : IPandemicContext
     {

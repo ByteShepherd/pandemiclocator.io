@@ -1,5 +1,6 @@
 ﻿using api.pandemiclocator.io.Infra.Data.Tables;
 using infra.api.pandemiclocator.io;
+using infra.api.pandemiclocator.io.Providers;
 
 namespace api.pandemiclocator.io.Infra.Initializators
 {

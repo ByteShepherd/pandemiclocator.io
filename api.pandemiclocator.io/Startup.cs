@@ -9,6 +9,8 @@ using Amazon.Internal;
 using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
 using infra.api.pandemiclocator.io;
+using infra.api.pandemiclocator.io.Implementations;
+using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +35,14 @@ namespace api.pandemiclocator.io
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            ConfigurePandemicServices(services);
+        }
+
+        private void ConfigurePandemicServices(IServiceCollection services)
+        {
             services.AddScoped<IPandemicContext, PandemicContext>();
+            services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
