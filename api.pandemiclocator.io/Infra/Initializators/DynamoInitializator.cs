@@ -2,15 +2,16 @@
 using api.pandemiclocator.io.Infra.Data.Documents;
 using api.pandemiclocator.io.Infra.Data.Tables;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.Providers;
+using infra.api.pandemiclocator.io.Helpers;
+using infra.api.pandemiclocator.io.Interfaces;
 
 namespace api.pandemiclocator.io.Infra.Initializators
 {
     public class DynamoInitializator
     {
-        public static void Initialize()
+        public static void Initialize(IDynamoDbConfiguration config)
         {
-            using (var client = DynamoProvider.ClientProvider())
+            using (var client = DynamoProvider.ClientProvider(config))
             {
                 var tableResponse = client.ListTablesAsync().GetAwaiter().GetResult();
                 if (!tableResponse.TableNames.Contains(nameof(HealthReport)))

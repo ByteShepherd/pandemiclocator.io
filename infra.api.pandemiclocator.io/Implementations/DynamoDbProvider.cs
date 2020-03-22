@@ -2,13 +2,19 @@
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using infra.api.pandemiclocator.io.Helpers;
 using infra.api.pandemiclocator.io.Interfaces;
-using infra.api.pandemiclocator.io.Providers;
 
 namespace infra.api.pandemiclocator.io.Implementations
 {
-    public class PandemicContext : IPandemicContext
+    public class DynamoDbProvider : IDynamoDbProvider
     {
+        public DynamoDbProvider(IDynamoDbConfiguration config)
+        {
+            _client = DynamoProvider.ClientProvider(config);
+            _context = DynamoProvider.Contextprovider(_client);
+        }
+
         private AmazonDynamoDBClient _client;
         private DynamoDBContext _context;
         
@@ -20,12 +26,6 @@ namespace infra.api.pandemiclocator.io.Implementations
         public Task SaveAsync<T>(T document, CancellationToken cancellationToken)
         {
             return _context.SaveAsync(document, cancellationToken);
-        }
-
-        public PandemicContext()
-        {
-            _client = DynamoProvider.ClientProvider();
-            _context = DynamoProvider.Contextprovider(_client);
         }
 
         public void Dispose()

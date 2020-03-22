@@ -20,9 +20,9 @@ namespace api.pandemiclocator.io.Controllers
     [ApiController]
     public class HealthReportController : PandemicWithContextControllerBase
     {
-        private readonly IPandemicCache _cache;
+        private readonly IRedisProvider _cache;
 
-        public HealthReportController(IPandemicCache cache, IPandemicContext context, IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) 
+        public HealthReportController(IRedisProvider cache, IDynamoDbProvider context, IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) 
             : base(context, hostInstanceProvider, dateTimeProvider)
         {
             _cache = cache;

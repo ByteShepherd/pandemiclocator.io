@@ -9,10 +9,10 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace infra.api.pandemiclocator.io.Implementations
 {
-    public class PandemicCache : IPandemicCache
+    public class RedisProvider : IRedisProvider
     {
         private readonly IDistributedCache _cache;
-        public PandemicCache(IDistributedCache cache)
+        public RedisProvider(IDistributedCache cache)
         {
             _cache = cache;
         }

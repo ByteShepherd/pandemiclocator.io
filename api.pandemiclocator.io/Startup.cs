@@ -13,6 +13,7 @@ using Amazon.Internal;
 using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
 using infra.api.pandemiclocator.io;
+using infra.api.pandemiclocator.io.ConfigurationSecions;
 using infra.api.pandemiclocator.io.Implementations;
 using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -105,15 +106,22 @@ namespace api.pandemiclocator.io
 
         private void ConfigurePandemicServices(IServiceCollection services)
         {
-            services.AddScoped<IPandemicContext, PandemicContext>();
-            services.AddScoped<IPandemicCache, PandemicCache>();
+            services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
+            services.AddScoped<IRedisProvider, RedisProvider>();
+
+            services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
+            {
+                var section = new DynamoDbConnectionSection();
+                Configuration.GetSection("DynamoDbConnection").Bind(section);
+                return new DynamoDbConfiguration(section);
+            });
 
             services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime, IDynamoDbConfiguration config)
         {
             if (env.IsDevelopment())
             {
@@ -135,7 +143,7 @@ namespace api.pandemiclocator.io
             //Registrar evento de shutdown
             applicationLifetime.ApplicationStopping.Register(OnShutdown);
 
-            DynamoInitializator.Initialize();
+            DynamoInitializator.Initialize(config);
 
             OnStartup();
         }
