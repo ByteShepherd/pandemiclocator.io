@@ -8,13 +8,13 @@ namespace api.pandemiclocator.io.Infra.Controllers
 {
     public class PandemicResponse<T>
     {
-        public int Status { get; }
+        public HttpStatusCode Status { get; }
         public T Data { get; }
         public string Message { get; }
 
         public PandemicResponse(HttpStatusCode status, T data, string message)
         {
-            Status = (int)status;
+            Status = status;
             Data = data;
             Message = message;
         }

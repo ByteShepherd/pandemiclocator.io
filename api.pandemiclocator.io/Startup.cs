@@ -62,7 +62,7 @@ namespace api.pandemiclocator.io
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                    options.JsonSerializerOptions.IgnoreReadOnlyProperties = true; 
+                    options.JsonSerializerOptions.IgnoreReadOnlyProperties = false; 
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.WriteIndented = false;
                     options.JsonSerializerOptions.AllowTrailingCommas = true;

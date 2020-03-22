@@ -7,20 +7,29 @@ namespace api.pandemiclocator.io.Infra.Commands
 {
     public class ReadHealthReportCommand
     {
-        [Required]
-        public HealthStatus Status { get; set; }
+        public ReadHealthReportCommand(HealthStatus status, ReportSource source, double latitude, double longitude, DateTime when)
+        {
+            Status = status;
+            Source = source;
+            Latitude = latitude;
+            Longitude = longitude;
+            When = when;
+        }
 
         [Required]
-        public ReportSource Source { get; set; }
+        public HealthStatus Status { get; }
 
         [Required]
-        public double Latitude { get; set; }
+        public ReportSource Source { get; }
 
         [Required]
-        public double Longitude { get; set; }
+        public double Latitude { get; }
 
         [Required]
-        public DateTime When { get; set; }
+        public double Longitude { get; }
+
+        [Required]
+        public DateTime When { get; }
     }
 
     public class CreateHealthReportCommand
@@ -52,13 +61,13 @@ namespace api.pandemiclocator.io.Infra.Commands
             }
 
             return new ReadHealthReportCommand
-            {
-                Status = model.Status,
-                Source = model.Source,
-                Latitude = model.Latitude,
-                Longitude = model.Longitude,
-                When = model.When
-            };
+            (
+                model.Status,
+                model.Source,
+                model.Latitude,
+                model.Longitude,
+                model.When
+            );
         }
 
         public static HealthReport ToModel(this CreateHealthReportCommand command)
