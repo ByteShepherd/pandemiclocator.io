@@ -44,7 +44,6 @@ namespace api.pandemiclocator.io.Controllers
                 return cachedReport;
             }
 
-            //TODO: disparar evento e o evento é quem deve fazer query
             var model = await Context.GetByIdAsync<HealthReport>(key, cancellationToken);
             if (model == null)
             {
@@ -73,7 +72,7 @@ namespace api.pandemiclocator.io.Controllers
 
             var model = command.ToModel();
 
-            //TODO: pegar mandar mensageria:
+            //TODO: mandar mensageria e quem responde ao evento sera responsavel por adicionar ao DynamoDB
 
             await Context.SaveAsync(model, cancellationToken);
             var result = command.ToSuccessPandemicResponse();
