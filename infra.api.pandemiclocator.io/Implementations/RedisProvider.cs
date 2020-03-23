@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using infra.api.pandemiclocator.io.Extensions;
 using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -19,7 +20,7 @@ namespace infra.api.pandemiclocator.io.Implementations
 
         public async Task<bool> SetCacheAsync<T>(string key, T item, CancellationToken cancellationToken) where T : class
         {
-            key = $"{typeof(T).Name}.{key}";
+            key = $"{typeof(T).GetFriendlyName()}.{key}";
             if (string.IsNullOrEmpty(key) || item == null)
             {
                 return false;
@@ -54,7 +55,7 @@ namespace infra.api.pandemiclocator.io.Implementations
 
         public async Task<T> GetCacheAsync<T>(string key, CancellationToken cancellationToken) where T : class
         {
-            key = $"{typeof(T).Name}.{key}";
+            key = $"{typeof(T).GetFriendlyName()}.{key}";
             T itemPoco = null;
             var itemJson = await _cache.GetStringAsync(key, cancellationToken);
             if (!string.IsNullOrEmpty(itemJson))
