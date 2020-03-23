@@ -54,6 +54,7 @@ namespace infra.api.pandemiclocator.io.Implementations
             }
         }
 
+        private const int DefaultShrinkMertadataInstanceSize = 64;
         private static readonly object InstanceIdLocker = new object();
         private static string _instanceId;
         public string HostInstanceId
@@ -70,12 +71,14 @@ namespace infra.api.pandemiclocator.io.Implementations
                             var (status, metadata) = RetrieveMetadata("instance-id");
                             if (status == HttpStatusCode.OK && !string.IsNullOrEmpty(metadata))
                             {
-                                metadataResponse = metadata.Length > 64 ? metadata?.Substring(0, 128) : metadata;
+                                metadataResponse = metadata.Length > DefaultShrinkMertadataInstanceSize 
+                                    ? metadata.Substring(0, DefaultShrinkMertadataInstanceSize) 
+                                    : metadata;
                             }
 
                             if (string.IsNullOrEmpty(metadataResponse))
                             {
-                                metadataResponse = System.Environment.MachineName;
+                                metadataResponse = Environment.MachineName;
                             }
 
                             _instanceId = metadataResponse;

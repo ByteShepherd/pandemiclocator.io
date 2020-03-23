@@ -72,7 +72,7 @@ namespace api.pandemiclocator.io.Controllers
 
             var model = command.ToModel();
 
-            //TODO: mandar mensageria e quem responde ao evento sera responsavel por adicionar ao DynamoDB
+            //TODO: mandar mensageria e quem responde ao evento sera responsavel por adicionar ao DynamoDB...
 
             await Context.SaveAsync(model, cancellationToken);
             var result = command.ToSuccessPandemicResponse();
