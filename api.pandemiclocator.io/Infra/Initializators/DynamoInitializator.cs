@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Data.Documents;
 using api.pandemiclocator.io.Infra.Data.Tables;
 using infra.api.pandemiclocator.io;
@@ -9,14 +10,14 @@ namespace api.pandemiclocator.io.Infra.Initializators
 {
     public class DynamoInitializator
     {
-        public static void Initialize(IDynamoDbConfiguration config)
+        public static async Task Initialize(IDynamoDbConfiguration config, CancellationToken cancellationToken)
         {
             using (var client = DynamoProvider.ClientProvider(config))
             {
-                var tableResponse = client.ListTablesAsync().GetAwaiter().GetResult();
+                var tableResponse = await client.ListTablesAsync(cancellationToken);
                 if (!tableResponse.TableNames.Contains(nameof(HealthReport)))
                 {
-                    client.CreateTableAsync(HealthReportInitializator.InitializeTable()).GetAwaiter().GetResult();
+                    await client.CreateTableAsync(HealthReportInitializator.InitializeTable(), cancellationToken);
 
                     //TODO: PARA CHECAR SE TABELA CRIADA E ATIVA
                     //bool isTableAvailable = false;

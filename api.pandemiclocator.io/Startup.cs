@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.DynamoDBv2;
@@ -121,7 +122,7 @@ namespace api.pandemiclocator.io
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime, IDynamoDbConfiguration config)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -139,8 +140,6 @@ namespace api.pandemiclocator.io
             app.UseCors(CorsPolicy)
                 .UseRequestLocalization()
                 /*TODO:.UseExceptionHandler()*/;
-
-            DynamoInitializator.Initialize(config);
 
             applicationLifetime.ApplicationStarted.Register(OnStarted);
             applicationLifetime.ApplicationStopping.Register(OnShuttingdown);
