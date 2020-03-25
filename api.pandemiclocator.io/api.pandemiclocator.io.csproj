@@ -10,6 +10,7 @@
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.14" />
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>

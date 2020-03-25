@@ -13,6 +13,7 @@ using Amazon.DynamoDBv2.Model;
 using Amazon.Internal;
 using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
+using api.pandemiclocator.io.Infra.Services;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.ConfigurationSecions;
 using infra.api.pandemiclocator.io.Implementations;
@@ -103,13 +104,17 @@ namespace api.pandemiclocator.io
 
             //###### PANDEMIC
             ConfigurePandemicServices(services);
+
+            //###### SERVICES
+            services.AddHostedService<HealthReportConsumerService>();
         }
 
         private void ConfigurePandemicServices(IServiceCollection services)
         {
             services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
             services.AddScoped<IRedisProvider, RedisProvider>();
-
+            services.AddScoped<IRabbitMqProvider, RabbitMQProvider>();
+            
             services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
             {
                 var section = new DynamoDbConnectionSection();
@@ -117,6 +122,14 @@ namespace api.pandemiclocator.io
                 return new DynamoDbConfiguration(section);
             });
 
+            services.AddSingleton<IQueueConnectionSection, QueueConnectionSection>((serviceProvider) =>
+            {
+                var section = new QueueConnectionSection();
+                Configuration.GetSection("QueueConnection").Bind(section);
+                return section;
+            });
+
+            services.AddSingleton<IRabbitFactoryProvider, RabbitFactoryProvider>();
             services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
