@@ -21,13 +21,15 @@ namespace infra.api.pandemiclocator.io.Implementations
         public QueueDeclareOk QueueDeclare(string queueName, bool durable = false, bool exclusive = false, bool autoDelete = false, IDictionary<string, object> arguments = null)
         {
             using (var connection = _rabbitFactoryProvider.Factory.CreateConnection())
-            using (var channel = connection.CreateModel())
             {
-                return channel.QueueDeclare(queue: queueName,
-                    durable: durable,
-                    exclusive: exclusive,
-                    autoDelete: autoDelete,
-                    arguments: arguments);
+                using (var channel = connection.CreateModel())
+                {
+                    return channel.QueueDeclare(queue: queueName,
+                        durable: durable,
+                        exclusive: exclusive,
+                        autoDelete: autoDelete,
+                        arguments: arguments);
+                }
             }
         }
 
@@ -36,12 +38,14 @@ namespace infra.api.pandemiclocator.io.Implementations
             try
             {
                 using (var connection = _rabbitFactoryProvider.Factory.CreateConnection())
-                using (var channel = connection.CreateModel())
                 {
-                    channel.BasicPublish(exchange: "",
-                        routingKey: queueName,
-                        basicProperties: null,
-                        body: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(content)));
+                    using (var channel = connection.CreateModel())
+                    {
+                        channel.BasicPublish(exchange: "",
+                            routingKey: queueName,
+                            basicProperties: null,
+                            body: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(content)));
+                    }
                 }
 
                 return new QueuePublishResult(true);

@@ -14,6 +14,7 @@ using Amazon.Internal;
 using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
 using api.pandemiclocator.io.Infra.Services;
+using events.pandemiclocator.io;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.ConfigurationSecions;
 using infra.api.pandemiclocator.io.Implementations;
@@ -129,7 +130,7 @@ namespace api.pandemiclocator.io
                 return section;
             });
 
-            services.AddSingleton<IRabbitFactoryProvider, RabbitFactoryProvider>();
+            services.AddTransient<IHealthReportFactoryProvider, HealthReportFactoryProvider>();
             services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
