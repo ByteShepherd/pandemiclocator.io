@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Commands;
 using api.pandemiclocator.io.Infra.Controllers;
-using api.pandemiclocator.io.Infra.Data.Documents;
+using events.pandemiclocator.io.Content;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -71,10 +71,8 @@ namespace api.pandemiclocator.io.Controllers
             }
 
             var model = command.ToModel();
-
             //TODO: mandar mensageria e quem responde ao evento sera responsavel por adicionar ao DynamoDB...
 
-            await Context.SaveAsync(model, cancellationToken);
             var result = command.ToSuccessPandemicResponse();
             return result;
         }

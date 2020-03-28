@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace api.pandemiclocator.io.Infra.Data.Tables
+namespace infra.api.pandemiclocator.io.Data.Tables
 {
     public interface IPandemicDynamoTable
     {

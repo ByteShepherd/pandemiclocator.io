@@ -1,4 +1,4 @@
-﻿namespace api.pandemiclocator.io.Infra.Data.Enums
+﻿namespace infra.api.pandemiclocator.io.Data.Enums
 {
     public enum HealthStatus
     {

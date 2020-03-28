@@ -18,11 +18,13 @@ namespace api.pandemiclocator.io.Infra.Services
     //Fonte: https://www.c-sharpcorner.com/article/consuming-rabbitmq-messages-in-asp-net-core/
     public class HealthReportConsumerService : BackgroundService
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly IRabbitFactoryProvider _healthReportFactoryProvider;
         private readonly ILogger _logger;
 
-        public HealthReportConsumerService(ILoggerFactory loggerFactory, IRabbitFactoryProvider healthReportFactoryProvider)
+        public HealthReportConsumerService(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IRabbitFactoryProvider healthReportFactoryProvider)
         {
+            _serviceProvider = serviceProvider;
             _healthReportFactoryProvider = healthReportFactoryProvider;
             _logger = loggerFactory.CreateLogger<HealthReportConsumerService>();
         }
@@ -31,7 +33,7 @@ namespace api.pandemiclocator.io.Infra.Services
         {
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = new NewHealthReportConsumer(stoppingToken, _logger, _healthReportFactoryProvider.Channel);
+            var consumer = new NewHealthReportConsumer(_serviceProvider, stoppingToken, _logger, _healthReportFactoryProvider.Channel);
             _healthReportFactoryProvider.Channel.BasicConsume(ChannelExtensions.HealthReportQueueName, false, consumer);
             return Task.CompletedTask;
         }

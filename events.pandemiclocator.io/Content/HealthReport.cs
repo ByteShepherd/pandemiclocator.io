@@ -1,11 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using Amazon.DynamoDBv2.DataModel;
-using Amazon.Runtime.Internal.Auth;
-using api.pandemiclocator.io.Infra.Data.Enums;
-using api.pandemiclocator.io.Infra.Data.Tables;
+using infra.api.pandemiclocator.io.Data.Enums;
+using infra.api.pandemiclocator.io.Data.Tables;
 
-namespace api.pandemiclocator.io.Infra.Data.Documents
+namespace events.pandemiclocator.io.Content
 {
     [DynamoDBTable(nameof(HealthReport))]
     public class HealthReport : IPandemicDynamoTable

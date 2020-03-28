@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using api.pandemiclocator.io.Infra.Data.Documents;
-using api.pandemiclocator.io.Infra.Data.Tables;
+using events.pandemiclocator.io.Content;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.Helpers;
 using infra.api.pandemiclocator.io.Interfaces;
