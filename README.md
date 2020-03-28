@@ -12,7 +12,7 @@
 * Practicing queues using RabbitMQ
 * Practicing cache using Redis
 * Practicing NoSQL DB using DynamoDB
-* Practicing heavy load techniques in code (async, cache, queues, fail fast) and hosting (LB, routes, gateways)
+* Practicing heavy load techniques in code (async, cache, queues, circuit breaker) and hosting (LB, routes, gateways)
 * Practicing geografic routines/algorithms necessary for the illness map
 * Practing CI/CD using GitLab for DevOps
 
