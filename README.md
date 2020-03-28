@@ -4,7 +4,7 @@
 * Create a way for the population around the world tell about it's self healthness
 * Sharing this project for public usage, evolving and gain time to go online ASAP to help in the COVID-19 battle
 * An Website to show illness people near you
-  to help in adopt the cautions to stay at home. Soon will be available https://www.pandemiclocator.io for the Web Frontend.
+  to help in adopt the cautions to stay at home. Soon will be available https://www.pandemiclocator.io.
 
 ## Pandemic Locator is also a collaborative platform
 ### The idea is to provide a platform (initially Web) for the person to have knowledge of the cases of COVID-19 that are close to him (radius of 30km). The virus cases will be shown as points of interest (POI) on a map. The person can also contribute with case reports regarding the virus. The idea is to be a collaborative platform for the disclosure of cases in a totally anonymous way.
