@@ -1,10 +1,10 @@
-# PANDEMIC LOCATOR (soon https://www.pandemiclocator.io)
+# PANDEMIC LOCATOR
 
 ## This is an open source project thant aims disseminating info about cases of coronavirus COVID-19 trough:
 * Create a way for the population around the world tell about it's self healthness
 * Sharing this project for public usage, evolving and gain time to go online ASAP to help in the COVID-19 battle
 * An interface (first site, then mobile if have time and staff to help in building) to show illness people near you
-  to help in adopt the cautions to stay at home.
+  to help in adopt the cautions to stay at home. Soon will be available https://www.pandemiclocator.io for the Web Frontend.
 
 ## This application is intended for study and practice areas like
 * Open sourcing as activity and team work
