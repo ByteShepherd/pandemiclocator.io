@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.pandemiclocator.io", "api.pandemiclocator.io\api.pandemiclocator.io.csproj", "{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{E47675C2-B3C5-427B-B1EB-97FF43EFC980}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{E47675C2-B3C5-427B-B1EB-97FF43EFC980}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infra.api.pandemiclocator.io", "infra.api.pandemiclocator.io\infra.api.pandemiclocator.io.csproj", "{BF3F433C-6750-461E-AD42-7E71A5BACD18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pandemiclocator.io.abstractions", "pandemiclocator.io.abstractions\pandemiclocator.io.abstractions.csproj", "{7B1D5360-9D99-47BC-AB64-2720E0C2179C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "website.pandemiclocator.io", "website.pandemiclocator.io\website.pandemiclocator.io.csproj", "{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +33,19 @@ Global
 		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C} = {E47675C2-B3C5-427B-B1EB-97FF43EFC980}
-		{BF3F433C-6750-461E-AD42-7E71A5BACD18} = {B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}
-		{7B1D5360-9D99-47BC-AB64-2720E0C2179C} = {B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}
+		{BF3F433C-6750-461E-AD42-7E71A5BACD18} = {E47675C2-B3C5-427B-B1EB-97FF43EFC980}
+		{7B1D5360-9D99-47BC-AB64-2720E0C2179C} = {E47675C2-B3C5-427B-B1EB-97FF43EFC980}
+		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC} = {B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E95176E-B11E-4E18-BF71-40A0AA625943}
