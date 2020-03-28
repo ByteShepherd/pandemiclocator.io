@@ -27,7 +27,7 @@
 * How to accept anonymous health report and at the same time avoid accepting too many from the same reporter (person)
 * Hot to use dotNet Core's health report to link to the load balancer and don't need to implement HealthReport/HealthCheck
 
-## How to setup your environment you will need:
+## To setup your environment you will need:
 * An AWS account for creating dynamoDB (I don't know a way to setup locally)
 * A local Docker for Redis and Rabbit
 * Create your appsettings to start using the API (what is in progress right now)
