@@ -1,22 +1,22 @@
 ﻿using System.Threading;
-using api.pandemiclocator.io.Infra.Data.Documents;
-using api.pandemiclocator.io.Infra.Data.Tables;
+using System.Threading.Tasks;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.Helpers;
-using infra.api.pandemiclocator.io.Interfaces;
+using infra.api.pandemiclocator.io.Database;
+using pandemiclocator.io.abstractions;
+using pandemiclocator.io.abstractions.Database;
 
 namespace api.pandemiclocator.io.Infra.Initializators
 {
     public class DynamoInitializator
     {
-        public static void Initialize(IDynamoDbConfiguration config)
+        public static async Task Initialize(IDynamoDbConfiguration config, CancellationToken cancellationToken)
         {
             using (var client = DynamoProvider.ClientProvider(config))
             {
-                var tableResponse = client.ListTablesAsync().GetAwaiter().GetResult();
+                var tableResponse = await client.ListTablesAsync(cancellationToken);
                 if (!tableResponse.TableNames.Contains(nameof(HealthReport)))
                 {
-                    client.CreateTableAsync(HealthReportInitializator.InitializeTable()).GetAwaiter().GetResult();
+                    await client.CreateTableAsync(HealthReportInitializator.InitializeTable(), cancellationToken);
 
                     //TODO: PARA CHECAR SE TABELA CRIADA E ATIVA
                     //bool isTableAvailable = false;

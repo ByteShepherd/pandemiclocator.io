@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.DynamoDBv2;
@@ -12,10 +13,12 @@ using Amazon.DynamoDBv2.Model;
 using Amazon.Internal;
 using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
+using api.pandemiclocator.io.Infra.Services;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.ConfigurationSecions;
-using infra.api.pandemiclocator.io.Implementations;
-using infra.api.pandemiclocator.io.Interfaces;
+using infra.api.pandemiclocator.io.Cache;
+using infra.api.pandemiclocator.io.Database;
+using infra.api.pandemiclocator.io.Environment;
+using infra.api.pandemiclocator.io.Queue;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +28,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.abstractions.Cache;
+using pandemiclocator.io.abstractions.Database;
+using pandemiclocator.io.abstractions.Environment;
+using pandemiclocator.io.abstractions.Queue;
 using Formatting = System.Xml.Formatting;
 
 namespace api.pandemiclocator.io
@@ -102,13 +109,16 @@ namespace api.pandemiclocator.io
 
             //###### PANDEMIC
             ConfigurePandemicServices(services);
+
+            //###### PANDEMIC QUEUE
+            ConfigurePandemicQueueServices(services);
         }
 
         private void ConfigurePandemicServices(IServiceCollection services)
         {
             services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
             services.AddScoped<IRedisProvider, RedisProvider>();
-
+            
             services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
             {
                 var section = new DynamoDbConnectionSection();
@@ -120,8 +130,22 @@ namespace api.pandemiclocator.io
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
+        private void ConfigurePandemicQueueServices(IServiceCollection services)
+        {
+            services.AddSingleton<IHealthReportFactoryProvider, HealthReportFactoryProvider>();
+            services.AddSingleton<IQueueConnectionSection, QueueConnectionSection>((serviceProvider) =>
+            {
+                var section = new QueueConnectionSection();
+                Configuration.GetSection("QueueConnection").Bind(section);
+                return section;
+            });
+
+            services.AddHostedService<HealthReportConsumerService>();
+            services.AddSingleton<IHealthReportConsumerPublisher, HealthReportConsumerPublisher>();
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime, IDynamoDbConfiguration config)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -139,8 +163,6 @@ namespace api.pandemiclocator.io
             app.UseCors(CorsPolicy)
                 .UseRequestLocalization()
                 /*TODO:.UseExceptionHandler()*/;
-
-            DynamoInitializator.Initialize(config);
 
             applicationLifetime.ApplicationStarted.Register(OnStarted);
             applicationLifetime.ApplicationStopping.Register(OnShuttingdown);

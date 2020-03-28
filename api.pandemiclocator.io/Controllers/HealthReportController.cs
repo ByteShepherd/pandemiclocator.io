@@ -7,13 +7,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Commands;
 using api.pandemiclocator.io.Infra.Controllers;
-using api.pandemiclocator.io.Infra.Data.Documents;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.abstractions;
+using pandemiclocator.io.abstractions.Cache;
+using pandemiclocator.io.abstractions.Database;
+using pandemiclocator.io.abstractions.Environment;
+using pandemiclocator.io.abstractions.Queue;
 
 namespace api.pandemiclocator.io.Controllers
 {
@@ -21,10 +24,12 @@ namespace api.pandemiclocator.io.Controllers
     public class HealthReportController : PandemicWithContextControllerBase
     {
         private readonly IRedisProvider _cache;
+        private readonly IHealthReportConsumerPublisher _healthReportConsumerPublisher;
 
-        public HealthReportController(IRedisProvider cache, IDynamoDbProvider context, IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) 
-            : base(context, hostInstanceProvider, dateTimeProvider)
+        public HealthReportController(IHealthReportConsumerPublisher healthReportConsumerPublisher, IRedisProvider cache, IDynamoDbProvider context, 
+            IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) : base(context, hostInstanceProvider, dateTimeProvider)
         {
+            _healthReportConsumerPublisher = healthReportConsumerPublisher;
             _cache = cache;
         }
 
@@ -71,12 +76,13 @@ namespace api.pandemiclocator.io.Controllers
             }
 
             var model = command.ToModel();
+            var publishResult = _healthReportConsumerPublisher.Publish(model);
+            if (publishResult.Success)
+            {
+                return command.ToSuccessPandemicResponse();
+            }
 
-            //TODO: mandar mensageria e quem responde ao evento sera responsavel por adicionar ao DynamoDB...
-
-            await Context.SaveAsync(model, cancellationToken);
-            var result = command.ToSuccessPandemicResponse();
-            return result;
+            return command.ToErrorPandemicResponse(publishResult.Error.Message);
         }
     }
 }
