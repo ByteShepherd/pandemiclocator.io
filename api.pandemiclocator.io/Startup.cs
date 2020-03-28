@@ -106,15 +106,14 @@ namespace api.pandemiclocator.io
             //###### PANDEMIC
             ConfigurePandemicServices(services);
 
-            //###### SERVICES
-            services.AddHostedService<HealthReportConsumerService>();
+            //###### PANDEMIC QUEUE
+            ConfigurePandemicQueueServices(services);
         }
 
         private void ConfigurePandemicServices(IServiceCollection services)
         {
             services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
             services.AddScoped<IRedisProvider, RedisProvider>();
-            
             
             services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
             {
@@ -123,6 +122,12 @@ namespace api.pandemiclocator.io
                 return new DynamoDbConfiguration(section);
             });
 
+            services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        }
+
+        private void ConfigurePandemicQueueServices(IServiceCollection services)
+        {
             services.AddSingleton<IRabbitMqProvider, RabbitMQProvider>();
             services.AddSingleton<IRabbitFactoryProvider, HealthReportFactoryProvider>();
             services.AddSingleton<IQueueConnectionSection, QueueConnectionSection>((serviceProvider) =>
@@ -132,8 +137,7 @@ namespace api.pandemiclocator.io
                 return section;
             });
 
-            services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
-            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddHostedService<HealthReportConsumerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
