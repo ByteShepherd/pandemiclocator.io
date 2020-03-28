@@ -30,7 +30,7 @@ namespace api.pandemiclocator.io.Infra.Services
         {
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = new NewHealthReportConsumer(_logger, _healthReportFactoryProvider.Channel);
+            var consumer = new NewHealthReportConsumer(stoppingToken, _logger, _healthReportFactoryProvider.Channel);
             _healthReportFactoryProvider.Channel.BasicConsume(ChannelExtensions.HealthReportQueueName, false, consumer);
             return Task.CompletedTask;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using infra.api.pandemiclocator.io.Queue;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -10,11 +11,13 @@ namespace events.pandemiclocator.io
 {
     public class NewHealthReportConsumer : EventingBasicConsumer, IPandemicEvent
     {
+        private readonly CancellationToken _stoppingToken;
         private readonly ILogger _logger;
         private readonly IModel _channel;
 
-        public NewHealthReportConsumer(ILogger logger, IModel channel) : base(channel)
+        public NewHealthReportConsumer(CancellationToken stoppingToken, ILogger logger, IModel channel) : base(channel)
         {
+            _stoppingToken = stoppingToken;
             _logger = logger;
             _channel = channel;
             channel.InitializeChannelForHealthReport();
@@ -28,6 +31,7 @@ namespace events.pandemiclocator.io
 
         private void OnReceived(object sender, BasicDeliverEventArgs ea)
         {
+            _stoppingToken.ThrowIfCancellationRequested();
             var content = System.Text.Encoding.UTF8.GetString(ea.Body);
             var handleResult = HandleMessage(content);
             if (handleResult.IsSuccess)
