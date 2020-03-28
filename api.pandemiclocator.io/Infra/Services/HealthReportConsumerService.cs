@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using events.pandemiclocator.io;
 using infra.api.pandemiclocator.io.Implementations;
+using infra.api.pandemiclocator.io.Interfaces;
 using infra.api.pandemiclocator.io.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,10 +18,10 @@ namespace api.pandemiclocator.io.Infra.Services
     //Fonte: https://www.c-sharpcorner.com/article/consuming-rabbitmq-messages-in-asp-net-core/
     public class HealthReportConsumerService : BackgroundService
     {
-        private readonly IHealthReportFactoryProvider _healthReportFactoryProvider;
+        private readonly IRabbitFactoryProvider _healthReportFactoryProvider;
         private readonly ILogger _logger;
 
-        public HealthReportConsumerService(ILoggerFactory loggerFactory, IHealthReportFactoryProvider healthReportFactoryProvider)
+        public HealthReportConsumerService(ILoggerFactory loggerFactory, IRabbitFactoryProvider healthReportFactoryProvider)
         {
             _healthReportFactoryProvider = healthReportFactoryProvider;
             _logger = loggerFactory.CreateLogger<HealthReportConsumerService>();

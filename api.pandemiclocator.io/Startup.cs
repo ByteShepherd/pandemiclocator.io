@@ -114,7 +114,7 @@ namespace api.pandemiclocator.io
         {
             services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
             services.AddScoped<IRedisProvider, RedisProvider>();
-            services.AddScoped<IRabbitMqProvider, RabbitMQProvider>();
+            
             
             services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
             {
@@ -123,6 +123,8 @@ namespace api.pandemiclocator.io
                 return new DynamoDbConfiguration(section);
             });
 
+            services.AddSingleton<IRabbitMqProvider, RabbitMQProvider>();
+            services.AddSingleton<IRabbitFactoryProvider, HealthReportFactoryProvider>();
             services.AddSingleton<IQueueConnectionSection, QueueConnectionSection>((serviceProvider) =>
             {
                 var section = new QueueConnectionSection();
@@ -130,7 +132,6 @@ namespace api.pandemiclocator.io
                 return section;
             });
 
-            services.AddTransient<IHealthReportFactoryProvider, HealthReportFactoryProvider>();
             services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
