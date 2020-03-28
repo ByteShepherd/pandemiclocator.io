@@ -7,6 +7,7 @@
   to help in adopt the cautions to stay at home.
 
 ## This application is intended for study and practice areas like
+* Open sourcing as activity and team work
 * Updating my dotNet expertise to .NET Core 3 and C#7
 * Updating my cloud experience in Azure to start using AWS
 * Practicing queues using RabbitMQ
