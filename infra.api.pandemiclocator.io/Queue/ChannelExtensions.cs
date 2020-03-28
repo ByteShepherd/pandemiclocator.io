@@ -5,7 +5,7 @@ using RabbitMQ.Client;
 
 namespace infra.api.pandemiclocator.io.Queue
 {
-    public static class ChannelExtensions
+    public static class QueueHealthReportChannelExtensions
     {
         public static string HealthReportExchangeName = $"{IPandemicEvent.DefaultPrefix}exchange";
         public static string HealthReportQueueName = $"{IPandemicEvent.DefaultPrefix}healthreport";

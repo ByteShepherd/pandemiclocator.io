@@ -19,10 +19,10 @@ namespace api.pandemiclocator.io.Infra.Services
     public class HealthReportConsumerService : BackgroundService
     {
         private readonly IDynamoDbConfiguration _dynamoConfiguration;
-        private readonly IRabbitFactoryProvider _healthReportFactoryProvider;
+        private readonly IQueueFactoryProvider _healthReportFactoryProvider;
         private readonly ILogger _logger;
 
-        public HealthReportConsumerService(IDynamoDbConfiguration dynamoConfiguration, ILoggerFactory loggerFactory, IRabbitFactoryProvider healthReportFactoryProvider)
+        public HealthReportConsumerService(IDynamoDbConfiguration dynamoConfiguration, ILoggerFactory loggerFactory, IQueueFactoryProvider healthReportFactoryProvider)
         {
             _dynamoConfiguration = dynamoConfiguration;
             _healthReportFactoryProvider = healthReportFactoryProvider;
@@ -34,7 +34,7 @@ namespace api.pandemiclocator.io.Infra.Services
             stoppingToken.ThrowIfCancellationRequested();
 
             var consumer = new NewHealthReportConsumer(_dynamoConfiguration, stoppingToken, _logger, _healthReportFactoryProvider.Channel);
-            _healthReportFactoryProvider.Channel.BasicConsume(ChannelExtensions.HealthReportQueueName, false, consumer);
+            _healthReportFactoryProvider.Channel.BasicConsume(QueueHealthReportChannelExtensions.HealthReportQueueName, false, consumer);
             return Task.CompletedTask;
         }
 

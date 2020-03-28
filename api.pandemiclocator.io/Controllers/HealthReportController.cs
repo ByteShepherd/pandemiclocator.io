@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Commands;
 using api.pandemiclocator.io.Infra.Controllers;
+using events.pandemiclocator.io;
 using events.pandemiclocator.io.Content;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.Interfaces;
@@ -21,10 +22,12 @@ namespace api.pandemiclocator.io.Controllers
     public class HealthReportController : PandemicWithContextControllerBase
     {
         private readonly IRedisProvider _cache;
+        private readonly IHealthReportConsumerPublisher _healthReportConsumerPublisher;
 
-        public HealthReportController(IRedisProvider cache, IDynamoDbProvider context, IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) 
-            : base(context, hostInstanceProvider, dateTimeProvider)
+        public HealthReportController(IHealthReportConsumerPublisher healthReportConsumerPublisher, IRedisProvider cache, IDynamoDbProvider context, 
+            IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) : base(context, hostInstanceProvider, dateTimeProvider)
         {
+            _healthReportConsumerPublisher = healthReportConsumerPublisher;
             _cache = cache;
         }
 
@@ -71,10 +74,13 @@ namespace api.pandemiclocator.io.Controllers
             }
 
             var model = command.ToModel();
-            //TODO: mandar mensageria e quem responde ao evento sera responsavel por adicionar ao DynamoDB...
+            var publishResult = _healthReportConsumerPublisher.Publish(model);
+            if (publishResult.Success)
+            {
+                return command.ToSuccessPandemicResponse();
+            }
 
-            var result = command.ToSuccessPandemicResponse();
-            return result;
+            return command.ToErrorPandemicResponse(publishResult.Error.Message);
         }
     }
 }

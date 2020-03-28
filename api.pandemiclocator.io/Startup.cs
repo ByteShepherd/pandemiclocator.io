@@ -129,7 +129,7 @@ namespace api.pandemiclocator.io
         private void ConfigurePandemicQueueServices(IServiceCollection services)
         {
             services.AddSingleton<IRabbitMqProvider, RabbitMQProvider>();
-            services.AddSingleton<IRabbitFactoryProvider, HealthReportFactoryProvider>();
+            services.AddSingleton<IHealthReportFactoryProvider, HealthReportFactoryProvider>();
             services.AddSingleton<IQueueConnectionSection, QueueConnectionSection>((serviceProvider) =>
             {
                 var section = new QueueConnectionSection();
@@ -138,6 +138,7 @@ namespace api.pandemiclocator.io
             });
 
             services.AddHostedService<HealthReportConsumerService>();
+            services.AddSingleton<IHealthReportConsumerPublisher, HealthReportConsumerPublisher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

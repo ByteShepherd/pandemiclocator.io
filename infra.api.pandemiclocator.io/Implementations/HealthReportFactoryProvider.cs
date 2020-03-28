@@ -3,7 +3,7 @@ using infra.api.pandemiclocator.io.Queue;
 
 namespace infra.api.pandemiclocator.io.Implementations
 {
-    public class HealthReportFactoryProvider : RabbitFactoryProvider
+    public class HealthReportFactoryProvider : RabbitFactoryProvider, IHealthReportFactoryProvider
     {
         public HealthReportFactoryProvider(IQueueConnectionSection queueConnectionSection) : base(queueConnectionSection)
         {

@@ -11,9 +11,9 @@ namespace infra.api.pandemiclocator.io.Implementations
     //Fopnte: https://github.com/renatogroffe/RabbitMQ-DotNetCore2.1/tree/master/ExemploRabbitMQ/APIMensagens
     public class RabbitMQProvider : IRabbitMqProvider
     {
-        private readonly IRabbitFactoryProvider _rabbitFactoryProvider;
+        private readonly IQueueFactoryProvider _rabbitFactoryProvider;
 
-        public RabbitMQProvider(IRabbitFactoryProvider rabbitFactoryProvider)
+        public RabbitMQProvider(IQueueFactoryProvider rabbitFactoryProvider)
         {
             _rabbitFactoryProvider = rabbitFactoryProvider;
         }

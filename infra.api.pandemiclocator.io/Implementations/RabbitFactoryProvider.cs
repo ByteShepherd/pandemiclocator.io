@@ -5,7 +5,7 @@ using RabbitMQ.Client.Framing;
 
 namespace infra.api.pandemiclocator.io.Implementations
 {
-    public abstract class RabbitFactoryProvider : IRabbitFactoryProvider
+    public abstract class RabbitFactoryProvider : IQueueFactoryProvider
     {
         private readonly IQueueConnectionSection _queueConnectionSection;
         protected RabbitFactoryProvider(IQueueConnectionSection queueConnectionSection)

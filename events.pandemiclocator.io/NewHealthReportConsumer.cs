@@ -103,7 +103,7 @@ namespace events.pandemiclocator.io
             }
             catch(Exception err)
             {
-                _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} handled error {err.ToString()}");
+                _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} handled error {err}");
                 return (false, err);
             }
         }
