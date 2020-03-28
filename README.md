@@ -26,6 +26,7 @@
 * Best way to use DynamoDB in storing geographic lcoation for better calculations n  illness map.
 * Using Razor for Frontend until have some more expertise staff in frontend
 * How to accept anonymous health report and at the same time avoid accepting too many from the same reporter (person)
+* Hot to use dotNet Core's health report to link to the load balancer and don't need to implement HealthReport/HealthCheck
 
 ## Example of appsettings.json
 ```
