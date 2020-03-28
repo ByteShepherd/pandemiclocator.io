@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{B831E971-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infra.api.pandemiclocator.io", "infra.api.pandemiclocator.io\infra.api.pandemiclocator.io.csproj", "{BF3F433C-6750-461E-AD42-7E71A5BACD18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pandemiclocator.io.abstractions", "pandemiclocator.io.abstractions\pandemiclocator.io.abstractions.csproj", "{7B1D5360-9D99-47BC-AB64-2720E0C2179C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{BF3F433C-6750-461E-AD42-7E71A5BACD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF3F433C-6750-461E-AD42-7E71A5BACD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF3F433C-6750-461E-AD42-7E71A5BACD18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1D5360-9D99-47BC-AB64-2720E0C2179C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{763B2422-5EFD-4386-B28C-0921425BA5FC} = {E47675C2-B3C5-427B-B1EB-97FF43EFC980}
 		{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C} = {E47675C2-B3C5-427B-B1EB-97FF43EFC980}
 		{BF3F433C-6750-461E-AD42-7E71A5BACD18} = {B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}
+		{7B1D5360-9D99-47BC-AB64-2720E0C2179C} = {B831E971-E22F-4B1A-8DA4-7EEAC8DAC445}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E95176E-B11E-4E18-BF71-40A0AA625943}

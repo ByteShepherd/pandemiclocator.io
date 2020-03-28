@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Commands;
 using api.pandemiclocator.io.Infra.Controllers;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.Data.Tables;
-using infra.api.pandemiclocator.io.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.abstractions;
+using pandemiclocator.io.abstractions.Cache;
+using pandemiclocator.io.abstractions.Database;
+using pandemiclocator.io.abstractions.Environment;
+using pandemiclocator.io.abstractions.Queue;
 
 namespace api.pandemiclocator.io.Controllers
 {

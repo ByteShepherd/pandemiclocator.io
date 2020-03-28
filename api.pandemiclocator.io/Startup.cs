@@ -15,9 +15,10 @@ using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
 using api.pandemiclocator.io.Infra.Services;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.ConfigurationSecions;
-using infra.api.pandemiclocator.io.Implementations;
-using infra.api.pandemiclocator.io.Interfaces;
+using infra.api.pandemiclocator.io.Cache;
+using infra.api.pandemiclocator.io.Database;
+using infra.api.pandemiclocator.io.Environment;
+using infra.api.pandemiclocator.io.Queue;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +28,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.abstractions.Cache;
+using pandemiclocator.io.abstractions.Database;
+using pandemiclocator.io.abstractions.Environment;
+using pandemiclocator.io.abstractions.Queue;
 using Formatting = System.Xml.Formatting;
 
 namespace api.pandemiclocator.io

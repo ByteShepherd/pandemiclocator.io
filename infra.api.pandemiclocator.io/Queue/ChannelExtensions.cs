@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using pandemiclocator.io.abstractions;
+using pandemiclocator.io.abstractions.Queue;
 using RabbitMQ.Client;
 
 namespace infra.api.pandemiclocator.io.Queue

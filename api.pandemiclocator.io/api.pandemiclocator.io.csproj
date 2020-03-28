@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\infra.api.pandemiclocator.io\infra.api.pandemiclocator.io.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.abstractions\pandemiclocator.io.abstractions.csproj" />
   </ItemGroup>
 
 

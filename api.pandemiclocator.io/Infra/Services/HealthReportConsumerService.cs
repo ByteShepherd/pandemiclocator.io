@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using infra.api.pandemiclocator.io.Implementations;
-using infra.api.pandemiclocator.io.Interfaces;
 using infra.api.pandemiclocator.io.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.abstractions.Database;
+using pandemiclocator.io.abstractions.Queue;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 

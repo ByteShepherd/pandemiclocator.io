@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using infra.api.pandemiclocator.io;
-using infra.api.pandemiclocator.io.Data.Tables;
-using infra.api.pandemiclocator.io.Helpers;
-using infra.api.pandemiclocator.io.Interfaces;
+using infra.api.pandemiclocator.io.Database;
+using pandemiclocator.io.abstractions;
+using pandemiclocator.io.abstractions.Database;
 
 namespace api.pandemiclocator.io.Infra.Initializators
 {

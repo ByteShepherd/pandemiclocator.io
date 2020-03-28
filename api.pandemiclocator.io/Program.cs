@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Initializators;
-using infra.api.pandemiclocator.io.Interfaces;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.abstractions.Database;
 
 namespace api.pandemiclocator.io
 {
