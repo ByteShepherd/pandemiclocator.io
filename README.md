@@ -1,6 +1,6 @@
 # PANDEMIC LOCATOR
 
-## This project aims to disseminate info about COVID-19 trough:
+## This is an open source project thant aims disseminating info about COVID-19 trough:
 * Create a way for the population around the world tell about it's self healthness
 * Sharing this project for public usage, evolving and gain time to go online ASAP to help in the COVID-19 battle
 * An interface (first site, then mobile if have time and staff to help in building) to show illness people near you
