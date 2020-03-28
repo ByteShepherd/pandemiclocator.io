@@ -340,3 +340,4 @@ ASALocalRun/
 healthchecksdb
 /api.pandemiclocator.io/appsettings.json
 /api.pandemiclocator.io/appsettings.Development.json
+/api.pandemiclocator.io/api.pandemiclocator.io.zip
