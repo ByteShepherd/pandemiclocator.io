@@ -28,13 +28,13 @@ namespace events.pandemiclocator.io.Content
         [DynamoDBHashKey]
         public string Id { get; set; }
 
-        public string Identifier { get; protected set; }
+        public string Identifier { get; set; }
         public int Quantity { get; protected set; }
-        public HealthStatus Status { get; protected set; }
-        public ReportSource Source { get; protected set; }
-        public double Latitude { get; protected set; }
-        public double Longitude { get; protected set; }
-        public DateTime When { get; protected set; }
+        public HealthStatus Status { get; set; }
+        public ReportSource Source { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public DateTime When { get; set; }
 
         
     }
