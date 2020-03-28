@@ -56,9 +56,9 @@ namespace events.pandemiclocator.io
             }
         }
 
-        private void OnConsumerConsumerCancelled(object sender, ConsumerEventArgs e) { }
-        private void OnConsumerUnregistered(object sender, ConsumerEventArgs e) { }
-        private void OnConsumerRegistered(object sender, ConsumerEventArgs e) { }
-        private void OnConsumerShutdown(object sender, ShutdownEventArgs e) { }
+        private void OnConsumerConsumerCancelled(object sender, ConsumerEventArgs e) { _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} cancelled tag {e.ConsumerTag}"); }
+        private void OnConsumerUnregistered(object sender, ConsumerEventArgs e) { _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} unregistered tag {e.ConsumerTag}"); }
+        private void OnConsumerRegistered(object sender, ConsumerEventArgs e) { _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} registered tag {e.ConsumerTag}"); }
+        private void OnConsumerShutdown(object sender, ShutdownEventArgs e) { _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} shutdown tag {e.ReplyText}"); }
     }
 }
