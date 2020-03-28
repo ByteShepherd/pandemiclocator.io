@@ -21,6 +21,12 @@
 * A local Docker for Redis and Rabbit
 * Create your appsettings to start using the API (what is in progress right now)
 
+## Doubts
+* Need a review in lifecycle of objects injected from IoC
+* Best way to use DynamoDB in storing geographic lcoation for better calculations n  illness map.
+* Using Razor for Frontend until have some more expertise staff in frontend
+* How to accept anonymous health report and at the same time avoid accepting too many from the same reporter (person)
+
 ## Example of appsettings.json
 ```
 {
