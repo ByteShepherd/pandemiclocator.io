@@ -28,7 +28,7 @@
 ## Doubts
 * Need a review in lifecycle of objects injected from IoC
 * Best way to use DynamoDB in storing geographic location for better calculations in illness map.
-* Using Razor until having more expertise staff for the frontend
+* How to build the illness map using the current location provided by the browser.
 * How to accept anonymous health report and at the same time avoid accepting too many from the same reporter (person)
 * Hot to use dotNet Core's health report to link to the load balancer and don't need to implement HealthReport/HealthCheck
 
