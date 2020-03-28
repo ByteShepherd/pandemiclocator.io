@@ -5,10 +5,10 @@ using RabbitMQ.Client.Framing;
 
 namespace infra.api.pandemiclocator.io.Implementations
 {
-    public abstract class RabbitFactoryProvider : IQueueFactoryProvider
+    public class RabbitFactoryProvider : IQueueFactoryProvider
     {
         private readonly IQueueConnectionSection _queueConnectionSection;
-        protected RabbitFactoryProvider(IQueueConnectionSection queueConnectionSection)
+        public RabbitFactoryProvider(IQueueConnectionSection queueConnectionSection)
         {
             _queueConnectionSection = queueConnectionSection;
         }
@@ -90,7 +90,10 @@ namespace infra.api.pandemiclocator.io.Implementations
             }
         }
 
-        protected abstract void InitializeChannel();
+        protected virtual void InitializeChannel()
+        {
+            throw new NotImplementedException();
+    }
 
         public void Dispose()
         {

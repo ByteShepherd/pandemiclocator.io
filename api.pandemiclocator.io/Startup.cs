@@ -14,7 +14,6 @@ using Amazon.Internal;
 using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Initializators;
 using api.pandemiclocator.io.Infra.Services;
-using events.pandemiclocator.io;
 using infra.api.pandemiclocator.io;
 using infra.api.pandemiclocator.io.ConfigurationSecions;
 using infra.api.pandemiclocator.io.Implementations;
@@ -128,7 +127,6 @@ namespace api.pandemiclocator.io
 
         private void ConfigurePandemicQueueServices(IServiceCollection services)
         {
-            services.AddSingleton<IRabbitMqProvider, RabbitMQProvider>();
             services.AddSingleton<IHealthReportFactoryProvider, HealthReportFactoryProvider>();
             services.AddSingleton<IQueueConnectionSection, QueueConnectionSection>((serviceProvider) =>
             {

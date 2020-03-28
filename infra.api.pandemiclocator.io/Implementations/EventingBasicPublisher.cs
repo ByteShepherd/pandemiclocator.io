@@ -5,17 +5,24 @@ using infra.api.pandemiclocator.io.Interfaces;
 using infra.api.pandemiclocator.io.Queue;
 using Microsoft.Extensions.Logging;
 
-namespace events.pandemiclocator.io
+namespace infra.api.pandemiclocator.io.Implementations
 {
     public class EventingBasicPublisher<T> : IEventingBasicPublisher<T> where T : class
     {
         private readonly ILogger _logger;
+        protected ILoggerFactory LoggerFactory { get; }
         protected IHealthReportFactoryProvider HealthReportFactoryProvider { get; }
 
-        public EventingBasicPublisher(ILogger logger, IHealthReportFactoryProvider healthReportFactoryProvider)
+        public EventingBasicPublisher(ILoggerFactory loggerFactory, IHealthReportFactoryProvider healthReportFactoryProvider)
         {
-            _logger = logger;
+            LoggerFactory = loggerFactory;
+            _logger = InitializeLogger();
             HealthReportFactoryProvider = healthReportFactoryProvider;
+        }
+
+        protected virtual ILogger InitializeLogger()
+        {
+            return LoggerFactory.CreateLogger<EventingBasicPublisher<T>>();
         }
 
         protected virtual string PublisherName => this.GetType().Name;

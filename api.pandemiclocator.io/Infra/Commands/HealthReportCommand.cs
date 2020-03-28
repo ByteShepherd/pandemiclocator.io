@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using events.pandemiclocator.io.Content;
 using infra.api.pandemiclocator.io.Data.Enums;
+using infra.api.pandemiclocator.io.Data.Tables;
 
 namespace api.pandemiclocator.io.Infra.Commands
 {

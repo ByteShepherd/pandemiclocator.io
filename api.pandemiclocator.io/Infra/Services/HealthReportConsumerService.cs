@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using events.pandemiclocator.io;
 using infra.api.pandemiclocator.io.Implementations;
 using infra.api.pandemiclocator.io.Interfaces;
 using infra.api.pandemiclocator.io.Queue;
@@ -19,10 +18,10 @@ namespace api.pandemiclocator.io.Infra.Services
     public class HealthReportConsumerService : BackgroundService
     {
         private readonly IDynamoDbConfiguration _dynamoConfiguration;
-        private readonly IQueueFactoryProvider _healthReportFactoryProvider;
+        private readonly IHealthReportFactoryProvider _healthReportFactoryProvider;
         private readonly ILogger _logger;
 
-        public HealthReportConsumerService(IDynamoDbConfiguration dynamoConfiguration, ILoggerFactory loggerFactory, IQueueFactoryProvider healthReportFactoryProvider)
+        public HealthReportConsumerService(IDynamoDbConfiguration dynamoConfiguration, ILoggerFactory loggerFactory, IHealthReportFactoryProvider healthReportFactoryProvider)
         {
             _dynamoConfiguration = dynamoConfiguration;
             _healthReportFactoryProvider = healthReportFactoryProvider;
