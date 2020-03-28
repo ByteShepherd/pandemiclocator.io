@@ -1,4 +1,4 @@
-# PANDEMIC LOCATOR
+# PANDEMIC LOCATOR (soon https://www.pandemiclocator.io)
 
 ## This is an open source project thant aims disseminating info about cases of coronavirus COVID-19 trough:
 * Create a way for the population around the world tell about it's self healthness
