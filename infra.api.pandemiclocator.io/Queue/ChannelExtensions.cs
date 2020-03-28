@@ -7,15 +7,15 @@ namespace infra.api.pandemiclocator.io.Queue
 {
     public static class ChannelExtensions
     {
+        public static string HealthReportExchangeName = $"{IPandemicEvent.DefaultPrefix}exchange";
+        public static string HealthReportQueueName = $"{IPandemicEvent.DefaultPrefix}healthreport";
+        public static string HealthReportRouteKey = $"{HealthReportQueueName}.*";
+
         public static void InitializeChannelForHealthReport(this IModel channel)
         {
-            var exchangeName = $"{IPandemicEvent.DefaultPrefix}exchange";
-            var queueName = $"{IPandemicEvent.DefaultPrefix}healthreport";
-            var routeKey = $"{queueName}.*";
-
-            channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
-            channel.QueueDeclare(queueName, false, false, false, null);
-            channel.QueueBind(queueName, exchangeName, routeKey, null);
+            channel.ExchangeDeclare(HealthReportExchangeName, ExchangeType.Topic);
+            channel.QueueDeclare(HealthReportQueueName, false, false, false, null);
+            channel.QueueBind(HealthReportQueueName, HealthReportExchangeName, HealthReportRouteKey, null);
             channel.BasicQos(0, 1, false);
         }
     }
