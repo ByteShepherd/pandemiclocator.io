@@ -2,10 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Threading;
-using Amazon.DynamoDBv2;
 using Microsoft.Extensions.Logging;
-using pandemiclocator.io.database;
-using pandemiclocator.io.database.abstractions;
 using pandemiclocator.io.queue.abstractions;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -14,14 +11,14 @@ namespace pandemiclocator.io.queue
 {
     public class NewHealthReportConsumer : EventingBasicConsumer, IPandemicEvent
     {
-        private readonly IDynamoDbConfiguration _dynamoConfiguration;
+        private readonly HandleNewHealthReportEventCallback _newHealthReportEventCallback;
         private readonly CancellationToken _stoppingToken;
         private readonly ILogger _logger;
         private readonly IModel _channel;
 
-        public NewHealthReportConsumer(IDynamoDbConfiguration dynamoConfiguration, CancellationToken stoppingToken, ILogger logger, IModel channel) : base(channel)
+        public NewHealthReportConsumer(HandleNewHealthReportEventCallback newHealthReportEventCallback, CancellationToken stoppingToken, ILogger logger, IModel channel) : base(channel)
         {
-            _dynamoConfiguration = dynamoConfiguration;
+            _newHealthReportEventCallback = newHealthReportEventCallback;
             _stoppingToken = stoppingToken;
             _logger = logger;
             _channel = channel;
@@ -56,50 +53,15 @@ namespace pandemiclocator.io.queue
                 _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} handled content {content}");
                 if (string.IsNullOrEmpty(content))
                 {
-                    throw new InvalidDataException("Este consumidor não aceita eventos com conteúdo vazio.");
+                    throw new InvalidDataException("A non-empty event content was expected.");
                 }
 
-                HealthReport contentObject;
-                try
-                {
-                    contentObject = JsonSerializer.Deserialize<HealthReport>(content);
-                }
-                catch
-                {
-                    throw new InvalidDataException("Este consumidor não aceita eventos diferentes de HealthReport.");
-                }
-
-                if (contentObject == null)
-                {
-                    throw new InvalidDataException("Este consumidor não recebeu um evento HealthReport serializável.");
-                }
-
-                try
-                {
-                    using (var context = new DynamoDbProvider(_dynamoConfiguration))
-                    {
-                        try
-                        {
-                            var dynamoCall = context.SaveAsync(contentObject, _stoppingToken);
-                            dynamoCall.Wait(_stoppingToken);
-                        }
-                        catch (Exception err)
-                        {
-                            throw new AmazonDynamoDBException($"Este consumidor não conseguiu gravar o evento de HealthReport. {err.Message}", err);
-                        }
-                    }
-                }
-                catch (Exception err)
-                {
-                    throw new AmazonDynamoDBException($"Este consumidor não conseguiu se conectar ao DynamoDB para gravar o evento de HealthReport. {err.Message}", err);
-                }
-
-                return (true, null);
+                return _newHealthReportEventCallback(content);
             }
-            catch(Exception err)
+            catch (Exception err)
             {
-                _logger.LogInformation($"Consumer {nameof(NewHealthReportConsumer)} handled error {err}");
-                return (false, err);
+                _logger.LogInformation($"An unexpected error has occurred during {nameof(NewHealthReportConsumer)}. {err}");
+                return (false, new ApplicationException($"An unexpected error has occurred during {nameof(NewHealthReportConsumer)}. {err.Message}", err));
             }
         }
 
