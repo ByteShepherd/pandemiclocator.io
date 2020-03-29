@@ -8,5 +8,6 @@ namespace pandemiclocator.io.queue.abstractions
         ConnectionFactory Factory { get; }
         IConnection Connection { get; }
         IModel Channel { get; }
+        IBasicProperties ChannelBasicProperties { get; }
     }
 }

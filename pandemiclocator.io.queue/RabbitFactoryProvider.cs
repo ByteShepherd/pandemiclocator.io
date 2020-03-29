@@ -68,6 +68,8 @@ namespace pandemiclocator.io.queue
             throw new NotImplementedException();
         }
 
+        public IBasicProperties ChannelBasicProperties { get; private set; }
+
         private readonly object _channelLocker = new object();
         private IModel _channel;
         public IModel Channel
@@ -81,6 +83,14 @@ namespace pandemiclocator.io.queue
                         if (_channel == null)
                         {
                             _channel = Connection.CreateModel();
+
+                            //Source: https://www.rabbitmq.com/tutorials/tutorial-two-dotnet.html
+                            //Since We have made our QueuDeclare as Durable (in QueueHealthReportChannelExtensions / InitializeChannelForHealthReport)
+                            //At this point we're sure that the task_queue queue won't be lost even if RabbitMQ restarts.Now we need to mark our messages as
+                            //persistent - by setting IBasicProperties.SetPersistent to true.
+                            ChannelBasicProperties = _channel.CreateBasicProperties();
+                            ChannelBasicProperties.Persistent = true;
+
                             InitializeChannel();
                         }
                     }

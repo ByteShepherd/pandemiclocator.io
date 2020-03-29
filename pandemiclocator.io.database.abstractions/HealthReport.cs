@@ -28,7 +28,7 @@ namespace pandemiclocator.io.database.abstractions
         public string Id { get; set; }
 
         public string Identifier { get; set; }
-        public int Quantity { get; protected set; }
+        public int Quantity { get;  set; }
         public HealthStatus Status { get; set; }
         public ReportSource Source { get; set; }
         public double Latitude { get; set; }
