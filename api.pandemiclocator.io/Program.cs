@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
-using pandemiclocator.io.abstractions.Database;
+using pandemiclocator.io.database.abstractions;
 
 namespace api.pandemiclocator.io
 {

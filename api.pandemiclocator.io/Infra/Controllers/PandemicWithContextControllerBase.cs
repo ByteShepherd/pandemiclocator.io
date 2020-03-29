@@ -1,7 +1,6 @@
 ﻿using System.Threading;
-using infra.api.pandemiclocator.io;
-using pandemiclocator.io.abstractions.Database;
-using pandemiclocator.io.abstractions.Environment;
+using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.environment.abstractions;
 
 
 namespace api.pandemiclocator.io.Infra.Controllers
