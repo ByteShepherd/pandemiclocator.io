@@ -34,13 +34,21 @@ namespace api.pandemiclocator.io.Infra.Services
         }
 
         private static CancellationToken _stoppingToken;
+
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _stoppingToken = stoppingToken;
             stoppingToken.ThrowIfCancellationRequested();
 
             var consumer = new NewHealthReportConsumer(NewHealthReportEventCallback, stoppingToken, _logger, _healthReportFactoryProvider.Channel);
-            _healthReportFactoryProvider.Channel.BasicConsume(QueueHealthReportChannelExtensions.HealthReportQueueName, false, consumer);
+
+            //When RabbitMQ delivers a message to a consumer, it needs to know when to consider the message to be successfully sent.
+            //What kind of logic is optimal depends on the system. It is therefore primarily an application decision. In AMQP 0-9-1 it is
+            //made when a consumer is registered using the basic.consume method
+            _healthReportFactoryProvider.Channel.BasicConsume(QueueHealthReportChannelExtensions.HealthReportQueueName,
+                    QueueHealthReportChannelExtensions.UseAutoAck,
+                    consumer);
+
             return Task.CompletedTask;
         }
 

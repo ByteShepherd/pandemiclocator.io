@@ -66,14 +66,14 @@ namespace api.pandemiclocator.io.Controllers
         }
 
         [HttpPost]
-        public PandemicResponse<CreateHealthReportCommand> NewWebReport(CreateHealthReportCommand command, CancellationToken cancellationToken)
+        public async Task<PandemicResponse<CreateHealthReportCommand>> NewWebReport(CreateHealthReportCommand command, CancellationToken cancellationToken)
         {
             if (command == null || !TryValidateModel(command, nameof(command)))
             {
                 return command.ToBadRequestPandemicResponse("Invalid model");
             }
 
-            var publishResult = _healthReportConsumerPublisher.Publish(command.ToModel());
+            var publishResult = await _healthReportConsumerPublisher.PublishAsync(command.ToModel(), cancellationToken);
             return publishResult.Success ? command.ToSuccessPandemicResponse() : command.ToErrorPandemicResponse(publishResult.Error.Message);
         }
     }
