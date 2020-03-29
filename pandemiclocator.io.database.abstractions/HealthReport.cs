@@ -34,7 +34,5 @@ namespace pandemiclocator.io.database.abstractions
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public DateTime When { get; set; }
-
-        
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
@@ -42,28 +44,54 @@ namespace api.pandemiclocator.io.Infra.Services
             return Task.CompletedTask;
         }
 
-        private (bool IsSuccess, Exception Error) NewHealthReportEventCallback(HealthReport healthReport)
+        private (bool IsSuccess, Exception Error) NewHealthReportEventCallback(string eventData)
         {
             try
             {
-                _stoppingToken.ThrowIfCancellationRequested();
-                using (var context = new DynamoDbProvider(_dynamoConfiguration))
+                if (_stoppingToken.IsCancellationRequested)
                 {
-                    try
+                    return (false, new ApplicationException($"{nameof(HealthReportConsumerService)} was request to stop."));
+                }
+
+                HealthReport contentObject;
+                try
+                {
+                    contentObject = JsonSerializer.Deserialize<HealthReport>(eventData);
+                }
+                catch
+                {
+                    return (false, new InvalidDataException("A serializable event of type HealthReport was expected."));
+                }
+
+                if (contentObject == null)
+                {
+                    return (false, new InvalidDataException("A non-empty event of type HealthReport was expected."));
+                }
+
+                try
+                {
+                    using (var context = new DynamoDbProvider(_dynamoConfiguration))
                     {
-                        var dynamoCall = context.SaveAsync(healthReport, _stoppingToken);
-                        dynamoCall.Wait(_stoppingToken);
-                        return (true, null);
+                        try
+                        {
+                            var dynamoCall = context.SaveAsync(contentObject, _stoppingToken);
+                            dynamoCall.Wait(_stoppingToken);
+                            return (true, null);
+                        }
+                        catch (Exception err)
+                        {
+                            return (false, new AmazonDynamoDBException($"An error occurred on HealthReport storing. {err.Message}", err));
+                        }
                     }
-                    catch (Exception err)
-                    {
-                        return (false, new AmazonDynamoDBException($"Este consumidor não conseguiu gravar o evento de HealthReport. {err.Message}", err));
-                    }
+                }
+                catch (Exception err)
+                {
+                    return (false, new AmazonDynamoDBException($"The HealthReport event cannot be saved on unavailable data store. {err.Message}", err));
                 }
             }
             catch (Exception err)
             {
-                return (false, new AmazonDynamoDBException($"Este consumidor não conseguiu se conectar ao DynamoDB para gravar o evento de HealthReport. {err.Message}", err));
+                return (false, new ApplicationException($"An unexpected error has occurred during {nameof(NewHealthReportEventCallback)}. {err.Message}", err));
             }
         }
 
