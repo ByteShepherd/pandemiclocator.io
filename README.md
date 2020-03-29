@@ -20,17 +20,17 @@
 * Practicing geografic routines/algorithms necessary for the illness map
 * Practing CI/CD using GitLab for DevOps
 
-## How to setup your environment you will need:
-* An AWS account for creating dynamoDB (I don't know a way to setup locally)
-* A local Docker for Redis and Rabbit
-* Create your appsettings to start using the API (what is in progress right now)
-
-## Doubts
+## Current Doubts
 * Need a review in lifecycle of objects injected from IoC
 * Best way to use DynamoDB in storing geographic location for better calculations in illness map.
-* Using Razor until having more expertise staff for the frontend
+* How to build the illness map using the current location provided by the browser.
 * How to accept anonymous health report and at the same time avoid accepting too many from the same reporter (person)
 * Hot to use dotNet Core's health report to link to the load balancer and don't need to implement HealthReport/HealthCheck
+
+## To setup your backend environment you will need:
+* An AWS account for creating dynamoDB (I don't know a way to setup locally)
+* A local Docker for Redis and Rabbit
+* Create your appsettings to start using the API
 
 ## Example of appsettings.json
 ```
