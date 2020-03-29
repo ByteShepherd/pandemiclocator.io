@@ -14,14 +14,14 @@ namespace pandemiclocator.io.queue
 {
     public class NewHealthReportConsumer : EventingBasicConsumer, IPandemicEvent
     {
-        private readonly IDynamoDbConfiguration _dynamoConfiguration;
+        private readonly HandleNewHealthReportEventCallback _newHealthReportEventCallback;
         private readonly CancellationToken _stoppingToken;
         private readonly ILogger _logger;
         private readonly IModel _channel;
 
-        public NewHealthReportConsumer(IDynamoDbConfiguration dynamoConfiguration, CancellationToken stoppingToken, ILogger logger, IModel channel) : base(channel)
+        public NewHealthReportConsumer(HandleNewHealthReportEventCallback newHealthReportEventCallback, CancellationToken stoppingToken, ILogger logger, IModel channel) : base(channel)
         {
-            _dynamoConfiguration = dynamoConfiguration;
+            _newHealthReportEventCallback = newHealthReportEventCallback;
             _stoppingToken = stoppingToken;
             _logger = logger;
             _channel = channel;
@@ -76,25 +76,12 @@ namespace pandemiclocator.io.queue
 
                 try
                 {
-                    using (var context = new DynamoDbProvider(_dynamoConfiguration))
-                    {
-                        try
-                        {
-                            var dynamoCall = context.SaveAsync(contentObject, _stoppingToken);
-                            dynamoCall.Wait(_stoppingToken);
-                        }
-                        catch (Exception err)
-                        {
-                            throw new AmazonDynamoDBException($"Este consumidor não conseguiu gravar o evento de HealthReport. {err.Message}", err);
-                        }
-                    }
+                    return _newHealthReportEventCallback(contentObject);
                 }
                 catch (Exception err)
                 {
                     throw new AmazonDynamoDBException($"Este consumidor não conseguiu se conectar ao DynamoDB para gravar o evento de HealthReport. {err.Message}", err);
                 }
-
-                return (true, null);
             }
             catch(Exception err)
             {

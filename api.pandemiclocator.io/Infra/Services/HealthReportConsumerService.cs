@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
 using pandemiclocator.io.queue;
 using pandemiclocator.io.queue.abstractions;
@@ -28,13 +31,40 @@ namespace api.pandemiclocator.io.Infra.Services
             _logger = loggerFactory.CreateLogger<HealthReportConsumerService>();
         }
 
+        private static CancellationToken _stoppingToken;
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _stoppingToken = stoppingToken;
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = new NewHealthReportConsumer(_dynamoConfiguration, stoppingToken, _logger, _healthReportFactoryProvider.Channel);
+            var consumer = new NewHealthReportConsumer(NewHealthReportEventCallback, stoppingToken, _logger, _healthReportFactoryProvider.Channel);
             _healthReportFactoryProvider.Channel.BasicConsume(QueueHealthReportChannelExtensions.HealthReportQueueName, false, consumer);
             return Task.CompletedTask;
+        }
+
+        private (bool IsSuccess, Exception Error) NewHealthReportEventCallback(HealthReport healthReport)
+        {
+            try
+            {
+                _stoppingToken.ThrowIfCancellationRequested();
+                using (var context = new DynamoDbProvider(_dynamoConfiguration))
+                {
+                    try
+                    {
+                        var dynamoCall = context.SaveAsync(healthReport, _stoppingToken);
+                        dynamoCall.Wait(_stoppingToken);
+                        return (true, null);
+                    }
+                    catch (Exception err)
+                    {
+                        return (false, new AmazonDynamoDBException($"Este consumidor não conseguiu gravar o evento de HealthReport. {err.Message}", err));
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                return (false, new AmazonDynamoDBException($"Este consumidor não conseguiu se conectar ao DynamoDB para gravar o evento de HealthReport. {err.Message}", err));
+            }
         }
 
         public override void Dispose()
