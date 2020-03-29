@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using pandemiclocator.io.cache.abstractions;
+using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
 using pandemiclocator.io.environment.abstractions;
 using pandemiclocator.io.queue.abstractions;
@@ -22,13 +23,16 @@ namespace api.pandemiclocator.io.Controllers
     public class HealthReportController : PandemicWithContextControllerBase
     {
         private readonly IRedisProvider _cache;
+        private readonly IGeolocationService _geolocationService;
         private readonly IHealthReportConsumerPublisher _healthReportConsumerPublisher;
 
         public HealthReportController(IHealthReportConsumerPublisher healthReportConsumerPublisher, IRedisProvider cache, IDynamoDbProvider context, 
-            IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider) : base(context, hostInstanceProvider, dateTimeProvider)
+            IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider, IGeolocationService geolocationService) 
+            : base(context, hostInstanceProvider, dateTimeProvider)
         {
             _healthReportConsumerPublisher = healthReportConsumerPublisher;
             _cache = cache;
+            _geolocationService = geolocationService;
         }
 
         [HttpGet]
@@ -63,6 +67,27 @@ namespace api.pandemiclocator.io.Controllers
             }
 
             return result;
+        }
+
+        [HttpGet]
+        public async Task<PandemicResponse<PandemicLocation[]>> GetReportsNearBy(ListHealthReportNearByCommand command, CancellationToken cancellationToken)
+        {
+            PandemicLocation[] response = null;
+            if (command == null || !TryValidateModel(command, nameof(command)))
+            {
+                return response.ToBadRequestPandemicResponse("Invalid model");
+            }
+
+            try
+            {
+                response = await _geolocationService.GetReportsNearByAsync(command.CurrentLocation);
+            }
+            catch (Exception err)
+            {
+                response.ToBadRequestPandemicResponse(err.Message);
+            }
+
+            return response.ToSuccessPandemicResponse();
         }
 
         [HttpPost]

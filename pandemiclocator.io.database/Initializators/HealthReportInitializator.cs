@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using pandemiclocator.io.database.abstractions;
 
-namespace api.pandemiclocator.io.Infra.Initializators
+namespace pandemiclocator.io.database.Initializators
 {
     public class HealthReportInitializator
     {

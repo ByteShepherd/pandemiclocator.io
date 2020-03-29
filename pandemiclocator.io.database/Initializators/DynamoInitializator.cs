@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
 
-namespace api.pandemiclocator.io.Infra.Initializators
+namespace pandemiclocator.io.database.Initializators
 {
     public class DynamoInitializator
     {

@@ -12,7 +12,6 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Internal;
 using Amazon.Runtime;
-using api.pandemiclocator.io.Infra.Initializators;
 using api.pandemiclocator.io.Infra.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -117,7 +116,8 @@ namespace api.pandemiclocator.io
         {
             services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
             services.AddScoped<IRedisProvider, RedisProvider>();
-            
+            services.AddScoped<IGeolocationService, GeolocationService>();
+
             services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
             {
                 var section = new DynamoDbConnectionSection();
