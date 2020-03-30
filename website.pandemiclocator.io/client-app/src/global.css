@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+.map-container {
+    height: 60vh;
+    margin: 1em 0;
+    border-radius: 0.5em;
+  }
+  
+.map-ref {
+    height: 100%;
+}
+
+* {
+    margin: 10;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font: 400 14px roboto, sans-serif;
+    background: #363636;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    color: #fff;
+    margin: 0;
+}
+
+input, button, p {
+    font: 400 14px roboto, sans-serif;
+    color: #fff;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
