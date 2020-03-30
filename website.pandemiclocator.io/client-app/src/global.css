@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
 
 .map-container {
-    height: 60vh;
+    height: 70vh;
     margin: 1em 0;
     border-radius: 0.5em;
   }
@@ -13,11 +13,18 @@
 .inline-box {
     display: inline-block;
     width: 100%;
+    color: #fff
 }
 
 .inline-box div {
     float: left;
     width: 33%;;
+}
+
+.inline-box div label {
+    position: relative;
+    top: 6px;
+    margin-left: 5px;
 }
 
 @media screen and (max-width: 650px) {

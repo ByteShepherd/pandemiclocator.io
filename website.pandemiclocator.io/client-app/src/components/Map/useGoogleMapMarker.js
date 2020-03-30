@@ -26,9 +26,14 @@ export default function useGoogleMapMarker({
       type,
       icon
     });
+
     Object.keys(events).forEach(eventName =>
       marker.addListener(eventMapping[eventName], events[eventName])
     );
+
+    if (type === mapIconEnum.current)
+      createCentralCircle(map, marker);
+    
     setMarker(marker);
   }, [position,
     map,
@@ -42,6 +47,15 @@ export default function useGoogleMapMarker({
     if (!type || type === mapIconEnum.default)
       return mapIcons.find(x => x.type === mapIconEnum.default).url;
     return mapIcons.find(x => x.type === type).url;
+  }
+
+  function createCentralCircle(map, marker) {
+    var circle = new maps.Circle({
+      radius: 30000,
+      fillColor: '#AA0000'
+    });
+    circle.setMap(map);
+    circle.bindTo('center', marker, 'position');
   }
 
   return marker;

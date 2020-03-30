@@ -70,15 +70,15 @@ export default function Consumer() {
             <p>Este mapa mostra os casos de COVID-19 num raio de 30 km</p>
             <div className="inline-box">
                 <div>
-                    <img src={mapIcons.find(x => x.type === mapIconEnum.death).url} alt="Mortes" />
+                    <img align="left" src={mapIcons.find(x => x.type === mapIconEnum.death).url} alt="Mortes" />
                     <label>{deaths} mortes pelo COVID</label>
                 </div>
                 <div>
-                    <img src={mapIcons.find(x => x.type === mapIconEnum.suspect).url} alt="Casos suspeitos" />
+                    <img align="left" src={mapIcons.find(x => x.type === mapIconEnum.suspect).url} alt="Casos suspeitos" />
                     <label>{suspects} casos suspeitos</label>
                 </div>
                 <div>
-                    <img src={mapIcons.find(x => x.type === mapIconEnum.confirmed).url} alt="Casos confirmados" />
+                    <img align="left" src={mapIcons.find(x => x.type === mapIconEnum.confirmed).url} alt="Casos confirmados" />
                     <label>{confirmeds} casos confirmados</label>
                 </div>
             </div>
@@ -88,11 +88,11 @@ export default function Consumer() {
                 center={{ lat: -26.9206069, lng: -49.0766607 }}
                 events={{ onBoundsChangerd: () => { } }}
             >
-                {markers.map((m, index) => (
+                {markers.filter(x => x.lat && x.lng).map((m, index) => (
                     <Marker
                         key={index}
                         title={m.title}
-                        position={{ lat: m.lat ?? 0, lng: m.lng ?? 0 }}
+                        position={{ lat: m.lat, lng: m.lng }}
                         type={m.type}
                         events={{
                             onClick: () => window.alert(`${m.id}`)
