@@ -1,10 +1,4 @@
-import { useEffect } from "react";
 import useGoogleMapMarker from "./useGoogleMapMarker";
-import death from '../../assets/death.png';
-import current from '../../assets/current.png';
-import incident from '../../assets/incident.png';
-
-
 
 export default function Marker({
   position,
@@ -12,10 +6,9 @@ export default function Marker({
   maps,
   map,
   events,
-  active = false,
   title
 }) {
-  const marker = useGoogleMapMarker({
+  useGoogleMapMarker({
     position,
     type,
     maps,
@@ -23,14 +16,6 @@ export default function Marker({
     events,
     title
   });
-
-  useEffect(
-    () => {
-      marker &&
-        (active ? marker.setIcon(current) : marker.setIcon(incident));
-    },
-    [active]
-  );
 
   return null;
 }

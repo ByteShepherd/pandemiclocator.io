@@ -10,6 +10,49 @@
     height: 100%;
 }
 
+.inline-box {
+    display: inline-block;
+    width: 100%;
+}
+
+.inline-box div {
+    float: left;
+    width: 33%;;
+}
+
+@media screen and (max-width: 650px) {
+    .inline-box {
+        display: inline-grid;
+    }
+    .inline-box div {
+        width: 100%;;
+    }
+}
+
+@media screen and (min-width: 651px) and (max-width: 900px) {
+    .inline-box {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1100px) {
+    .inline-box {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 1101px) and (max-width: 1300px) {
+    .inline-box {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 1301px) {
+    .inline-box {
+        width: 50%;
+    }
+}
+
 * {
     margin: 10;
     padding: 0;
@@ -26,9 +69,10 @@ body {
 h1 {
     color: #fff;
     margin: 0;
+    font: 500 60px roboto, sans-serif;
 }
 
-input, button, p {
+input, button, p, label {
     font: 400 14px roboto, sans-serif;
     color: #fff;
     margin: 0;
@@ -37,4 +81,3 @@ input, button, p {
 button {
     cursor: pointer;
 }
-

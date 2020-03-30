@@ -22,6 +22,6 @@ export default function useGoogleMap({ zoom, center, events }) {
 
       setMapState({ maps: google.maps, map, loading: false });
     });
-  }, []);
+  }, [zoom, center, events]);
   return { mapRef, ...mapState };
 }

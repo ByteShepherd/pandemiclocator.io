@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import mapIcons from '../../util/mapIcons';
+import mapIconEnum from '../../util/mapIconEnum';
 
 const eventMapping = {
   onClick: "click",
@@ -15,7 +17,7 @@ export default function useGoogleMapMarker({
 }) {
   const [marker, setMarker] = useState();
   const icon = getIcon(type);
-  
+
   useEffect(() => {
     const marker = new maps.Marker({
       position,
@@ -28,23 +30,18 @@ export default function useGoogleMapMarker({
       marker.addListener(eventMapping[eventName], events[eventName])
     );
     setMarker(marker);
-  }, []);
+  }, [position,
+    map,
+    title,
+    type,
+    icon,
+    events,
+    maps.Marker]);
 
   function getIcon(type) {
-    // http://kml4earth.appspot.com/icons.html
-    switch (type) {
-      case 'current':
-        // return 'http://maps.google.com/mapfiles/kml/paddle/blu-stars.png';
-        return 'https://maps.google.com/mapfiles/kml/pal3/icon31.png';
-      case 'death':
-        // return 'http://maps.google.com/mapfiles/kml/shapes/church.png';
-        return 'https://maps.google.com/mapfiles/kml/pal3/icon39.png';
-      case 'incident':
-        // return 'http://maps.google.com/mapfiles/kml/shapes/caution.png';
-        return 'https://maps.google.com/mapfiles/kml/pal3/icon37.png';
-      default:
-        return 'https://maps.google.com/mapfiles/kml/pal3/icon37.png';
-    }
+    if (!type || type === mapIconEnum.default)
+      return mapIcons.find(x => x.type === mapIconEnum.default).url;
+    return mapIcons.find(x => x.type === type).url;
   }
 
   return marker;

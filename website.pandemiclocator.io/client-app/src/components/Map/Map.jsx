@@ -8,7 +8,7 @@ export default function Map({ center, zoom, children, events }) {
     () => {
       map && map.panTo(center);
     },
-    [center.lat, center.lng]
+    [center, map]
   );
 
   return (

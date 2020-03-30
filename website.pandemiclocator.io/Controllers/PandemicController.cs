@@ -15,17 +15,19 @@ namespace website.pandemiclocator.io.Controllers
         public IEnumerable<Incident> Get(double lat, double lng)
         {
             var incidents = new List<Incident>();
-            for (int i = 1; i <= 6; i++)
+            for (int i = 2; i <= 10; i++)
             {
-                bool isDeath = (i + 1) % 2 == 0;
+                bool isDeath = i % 2 == 0;
+                bool isSuspect = i % 3 == 0;
+                int qtd = new Random().Next(200);
                 incidents.Add(new Incident()
                 {
-                    Id = i + 1,
-                    Title = isDeath ? "Mortes" : "Incidentes",
-                    Type = isDeath ? "death" : "incident",
+                    Id = i,
+                    Title = $"{qtd} " + (isSuspect ? "casos suspeitos" : (isDeath ? "mortes" : "casos confirmados")),
+                    Type = isSuspect ? "suspect" : (isDeath ? "death" : "confirmed"),
                     Lat = lat + (0.04 * i),
                     Lng = lng + (0.04 * i),
-                    Qtd = new Random().Next(200)
+                    Qtd = qtd
                 });
             }
 
