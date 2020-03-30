@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.database.abstractions.Models;
 using pandemiclocator.io.queue;
 using pandemiclocator.io.queue.abstractions;
 using RabbitMQ.Client;

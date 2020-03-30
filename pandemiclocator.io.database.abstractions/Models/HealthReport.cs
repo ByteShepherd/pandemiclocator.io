@@ -1,8 +1,7 @@
 ﻿using System;
 using Amazon.DynamoDBv2.DataModel;
-using pandemiclocator.io.database.abstractions.Enums;
 
-namespace pandemiclocator.io.database.abstractions
+namespace pandemiclocator.io.database.abstractions.Models
 {
     [DynamoDBTable(nameof(HealthReport))]
     public class HealthReport : IPandemicDynamoTable
@@ -12,15 +11,15 @@ namespace pandemiclocator.io.database.abstractions
             (this as IPandemicDynamoTable).GenerateNewId();
         }
 
-        public HealthReport(string identifier, HealthStatus status, int quantity, ReportSource source, double latitude, double longitude, DateTime when)
+        public HealthReport(string identifier, HealthStatus status, int quantity, ReportSource source, ReportLocation location, DateTime when)
         {
             (this as IPandemicDynamoTable).GenerateNewId();
             Identifier = identifier;
             Quantity = quantity;
             Status = status;
             Source = source;
-            Latitude = latitude;
-            Longitude = longitude;
+            Latitude = location.Latitude;
+            Longitude = location.Longitude;
             When = when;
         }
 

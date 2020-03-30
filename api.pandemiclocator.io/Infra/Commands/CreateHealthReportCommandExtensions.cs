@@ -1,5 +1,6 @@
 ﻿using System;
 using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.database.abstractions.Models;
 
 namespace api.pandemiclocator.io.Infra.Commands
 {
@@ -17,8 +18,11 @@ namespace api.pandemiclocator.io.Infra.Commands
                 model.Status,
                 model.Quantity,
                 model.Source,
-                model.Latitude,
-                model.Longitude,
+                new ReportLocation
+                {
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude
+                }, 
                 model.When
             );
         }
@@ -41,8 +45,7 @@ namespace api.pandemiclocator.io.Infra.Commands
                 command.Status,
                 command.Quantity,
                 command.Source,
-                command.Latitude,
-                command.Longitude,
+                command.Location,
                 DateTime.UtcNow
             );
         }

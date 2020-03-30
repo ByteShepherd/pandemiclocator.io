@@ -2,6 +2,7 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.database.abstractions.Models;
 
 namespace pandemiclocator.io.database.Initializators
 {

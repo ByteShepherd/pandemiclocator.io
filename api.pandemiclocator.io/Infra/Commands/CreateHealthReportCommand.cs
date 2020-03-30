@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using pandemiclocator.io.database.abstractions.Enums;
+using pandemiclocator.io.database.abstractions.Models;
 
 namespace api.pandemiclocator.io.Infra.Commands
 {
@@ -19,9 +19,6 @@ namespace api.pandemiclocator.io.Infra.Commands
         public ReportSource Source { get; set; }
 
         [Required]
-        public double Latitude { get; set; }
-
-        [Required]
-        public double Longitude { get; set; }
+        public ReportLocation Location { get; set; }
     }
 }

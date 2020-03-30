@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using pandemiclocator.io.cache.abstractions;
 using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.database.abstractions.Models;
 using pandemiclocator.io.environment.abstractions;
 using pandemiclocator.io.queue.abstractions;
 
@@ -70,9 +71,9 @@ namespace api.pandemiclocator.io.Controllers
         }
 
         [HttpGet]
-        public async Task<PandemicResponse<PandemicLocation[]>> GetReportsNearBy(ListHealthReportNearByCommand command, CancellationToken cancellationToken)
+        public async Task<PandemicResponse<PandemicReport[]>> GetReportsNearBy(ListHealthReportNearByCommand command, CancellationToken cancellationToken)
         {
-            PandemicLocation[] response = null;
+            PandemicReport[] response = null;
             if (command == null || !TryValidateModel(command, nameof(command)))
             {
                 return response.ToBadRequestPandemicResponse("Invalid model");
@@ -80,7 +81,7 @@ namespace api.pandemiclocator.io.Controllers
 
             try
             {
-                response = await _geolocationService.GetReportsNearByAsync(command.CurrentLocation);
+                response = await _geolocationService.GetReportsNearByAsync(command.Location, cancellationToken);
             }
             catch (Exception err)
             {
