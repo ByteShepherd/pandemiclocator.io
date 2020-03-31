@@ -1,4 +1,4 @@
-﻿namespace pandemiclocator.io.database.abstractions.Models
+﻿namespace pandemiclocator.io.model.abstractions
 {
     public enum ReportSource
     {

@@ -4,14 +4,11 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.Internal;
-using Amazon.Runtime;
 using api.pandemiclocator.io.Infra.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +27,8 @@ using pandemiclocator.io.environment;
 using pandemiclocator.io.environment.abstractions;
 using pandemiclocator.io.queue;
 using pandemiclocator.io.queue.abstractions;
+using pandemiclocator.io.services;
+using pandemiclocator.io.services.abstractions;
 using Formatting = System.Xml.Formatting;
 
 namespace api.pandemiclocator.io
@@ -114,17 +113,19 @@ namespace api.pandemiclocator.io
 
         private void ConfigurePandemicServices(IServiceCollection services)
         {
-            services.AddScoped<IDynamoDbProvider, DynamoDbProvider>();
-            services.AddScoped<IRedisProvider, RedisProvider>();
-            services.AddScoped<IGeolocationService, GeolocationService>();
-
-            services.AddSingleton<IDynamoDbConfiguration, DynamoDbConfiguration>((serviceProvider) =>
+            services.AddTransient<IDbPandemicConnection, DbPandemicConnection>((serviceProvider) =>
             {
-                var section = new DynamoDbConnectionSection();
-                Configuration.GetSection("DynamoDbConnection").Bind(section);
-                return new DynamoDbConfiguration(section);
+                var connString = Configuration.GetConnectionString("PandemicDatabase");
+                return new DbPandemicConnection(connString);
             });
 
+            services.AddTransient<IGeolocationService, GeolocationService>((serviceProvider) =>
+            {
+                var conn = serviceProvider.GetService<IDbPandemicConnection>();
+                return new GeolocationService(conn);
+            });
+
+            services.AddScoped<IRedisProvider, RedisProvider>();
             services.AddSingleton<IHostInstanceProvider, HostInstanceProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }

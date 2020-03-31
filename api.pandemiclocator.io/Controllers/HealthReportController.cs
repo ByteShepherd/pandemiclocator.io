@@ -14,9 +14,10 @@ using Microsoft.Extensions.Logging;
 using pandemiclocator.io.cache.abstractions;
 using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
-using pandemiclocator.io.database.abstractions.Models;
 using pandemiclocator.io.environment.abstractions;
+using pandemiclocator.io.model.abstractions;
 using pandemiclocator.io.queue.abstractions;
+using pandemiclocator.io.services.abstractions;
 
 namespace api.pandemiclocator.io.Controllers
 {
@@ -27,48 +28,48 @@ namespace api.pandemiclocator.io.Controllers
         private readonly IGeolocationService _geolocationService;
         private readonly IHealthReportConsumerPublisher _healthReportConsumerPublisher;
 
-        public HealthReportController(IHealthReportConsumerPublisher healthReportConsumerPublisher, IRedisProvider cache, IDynamoDbProvider context, 
+        public HealthReportController(IHealthReportConsumerPublisher healthReportConsumerPublisher, IRedisProvider cache,
             IHostInstanceProvider hostInstanceProvider, IDateTimeProvider dateTimeProvider, IGeolocationService geolocationService) 
-            : base(context, hostInstanceProvider, dateTimeProvider)
+            : base(hostInstanceProvider, dateTimeProvider)
         {
             _healthReportConsumerPublisher = healthReportConsumerPublisher;
             _cache = cache;
             _geolocationService = geolocationService;
         }
 
-        [HttpGet]
-        public async Task<PandemicResponse<ReadHealthReportCommand>> GetWebReport(string key, CancellationToken cancellationToken)
-        {
-            ReadHealthReportCommand response = null;
-            if (string.IsNullOrEmpty(key))
-            {
-                return response.ToBadRequestPandemicResponse("Invalid Key!");
-            }
+        //[HttpGet]
+        //public async Task<PandemicResponse<ReadHealthReportCommand>> GetWebReport(string key, CancellationToken cancellationToken)
+        //{
+        //    ReadHealthReportCommand response = null;
+        //    if (string.IsNullOrEmpty(key))
+        //    {
+        //        return response.ToBadRequestPandemicResponse("Invalid Key!");
+        //    }
 
-            //########## OBTER CACHE
-            var cachedReport = await _cache.GetCacheAsync<PandemicResponse<ReadHealthReportCommand>>(key, cancellationToken);
-            if (cachedReport != null)
-            {
-                return cachedReport;
-            }
+        //    //########## OBTER CACHE
+        //    var cachedReport = await _cache.GetCacheAsync<PandemicResponse<ReadHealthReportCommand>>(key, cancellationToken);
+        //    if (cachedReport != null)
+        //    {
+        //        return cachedReport;
+        //    }
 
-            var model = await Context.GetByIdAsync<HealthReport>(key, cancellationToken);
-            if (model == null)
-            {
-                return response.ToNotFoundPandemicResponse();
-            }
+        //    var model = await Context.GetByIdAsync<HealthReport>(key, cancellationToken);
+        //    if (model == null)
+        //    {
+        //        return response.ToNotFoundPandemicResponse();
+        //    }
 
-            //########## INSERIR CACHE
-            response = model.ToReadCommand();
-            var result = response.ToSuccessPandemicResponse();
+        //    //########## INSERIR CACHE
+        //    response = model.ToReadCommand();
+        //    var result = response.ToSuccessPandemicResponse();
 
-            if (result != null && result.Status == HttpStatusCode.OK)
-            {
-                await _cache.SetCacheAsync(key, result, cancellationToken);
-            }
+        //    if (result != null && result.Status == HttpStatusCode.OK)
+        //    {
+        //        await _cache.SetCacheAsync(key, result, cancellationToken);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         [HttpGet]
         public async Task<PandemicResponse<PandemicReport[]>> GetReportsNearBy(ListHealthReportNearByCommand command, CancellationToken cancellationToken)

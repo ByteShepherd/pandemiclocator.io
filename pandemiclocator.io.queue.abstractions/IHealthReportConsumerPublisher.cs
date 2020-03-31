@@ -1,5 +1,5 @@
 ﻿using pandemiclocator.io.database.abstractions;
-using pandemiclocator.io.database.abstractions.Models;
+using pandemiclocator.io.model.abstractions;
 
 namespace pandemiclocator.io.queue.abstractions
 {

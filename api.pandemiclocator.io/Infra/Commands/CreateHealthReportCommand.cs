@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using pandemiclocator.io.database.abstractions.Models;
+using pandemiclocator.io.model.abstractions;
 
 namespace api.pandemiclocator.io.Infra.Commands
 {

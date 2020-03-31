@@ -1,19 +1,17 @@
 ﻿using System;
-using Amazon.DynamoDBv2.DataModel;
 
-namespace pandemiclocator.io.database.abstractions.Models
+namespace pandemiclocator.io.model.abstractions
 {
-    [DynamoDBTable(nameof(HealthReport))]
-    public class HealthReport : IPandemicDynamoTable
+    public class HealthReport
     {
         public HealthReport()
         {
-            (this as IPandemicDynamoTable).GenerateNewId();
+            Id = Guid.NewGuid();
         }
 
         public HealthReport(string identifier, HealthStatus status, int quantity, ReportSource source, ReportLocation location, DateTime when)
         {
-            (this as IPandemicDynamoTable).GenerateNewId();
+            Id = Guid.NewGuid();
             Identifier = identifier;
             Quantity = quantity;
             Status = status;
@@ -23,9 +21,7 @@ namespace pandemiclocator.io.database.abstractions.Models
             When = when;
         }
 
-        [DynamoDBHashKey]
-        public string Id { get; set; }
-
+        public Guid Id { get; set; }
         public string Identifier { get; set; }
         public int Quantity { get;  set; }
         public HealthStatus Status { get; set; }
