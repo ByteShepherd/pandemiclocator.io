@@ -11,7 +11,7 @@ import mapIconEnum from '../../util/mapIconEnum';
 
 import api from '../../services/api';
 
-export default function Consumer() {
+export default function HealthReport() {
     const [markers, setMarkers] = useState([]);
     const [deaths, setDeaths] = useState(0);
     const [suspects, setSuspects] = useState(0);
