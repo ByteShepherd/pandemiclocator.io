@@ -10,7 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using pandemiclocator.io.abstractions.Database;
+using Microsoft.Extensions.Logging.EventLog;
+using pandemiclocator.io.database.abstractions;
 
 namespace api.pandemiclocator.io
 {
@@ -32,6 +33,14 @@ namespace api.pandemiclocator.io
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                    logging.AddDebug();
+
+                    //TODO: Review for production
+                });
     }
 }

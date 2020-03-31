@@ -7,16 +7,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.pandemiclocator.io.Infra.Commands;
 using api.pandemiclocator.io.Infra.Controllers;
-using infra.api.pandemiclocator.io;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using pandemiclocator.io.abstractions;
-using pandemiclocator.io.abstractions.Cache;
-using pandemiclocator.io.abstractions.Database;
-using pandemiclocator.io.abstractions.Environment;
-using pandemiclocator.io.abstractions.Queue;
+using pandemiclocator.io.cache.abstractions;
+using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.environment.abstractions;
+using pandemiclocator.io.queue.abstractions;
 
 namespace api.pandemiclocator.io.Controllers
 {
@@ -75,14 +73,8 @@ namespace api.pandemiclocator.io.Controllers
                 return command.ToBadRequestPandemicResponse("Invalid model");
             }
 
-            var model = command.ToModel();
-            var publishResult = _healthReportConsumerPublisher.Publish(model);
-            if (publishResult.Success)
-            {
-                return command.ToSuccessPandemicResponse();
-            }
-
-            return command.ToErrorPandemicResponse(publishResult.Error.Message);
+            var publishResult = await _healthReportConsumerPublisher.PublishAsync(command.ToModel(), cancellationToken);
+            return publishResult.Success ? command.ToSuccessPandemicResponse() : command.ToErrorPandemicResponse(publishResult.Error.Message);
         }
     }
 }

@@ -14,8 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\infra.api.pandemiclocator.io\infra.api.pandemiclocator.io.csproj" />
-    <ProjectReference Include="..\pandemiclocator.io.abstractions\pandemiclocator.io.abstractions.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.cache.abstractions\pandemiclocator.io.cache.abstractions.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.cache\pandemiclocator.io.cache.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.database.abstractions\pandemiclocator.io.database.abstractions.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.database\pandemiclocator.io.database.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.environment.abstractions\pandemiclocator.io.environment.abstractions.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.environment\pandemiclocator.io.environment.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.queue.abstractions\pandemiclocator.io.queue.abstractions.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.queue\pandemiclocator.io.queue.csproj" />
   </ItemGroup>
 
 

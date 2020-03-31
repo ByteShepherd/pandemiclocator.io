@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using infra.api.pandemiclocator.io;
-
 using Microsoft.AspNetCore.Mvc;
-using pandemiclocator.io.abstractions.Environment;
+using pandemiclocator.io.environment.abstractions;
 
 namespace api.pandemiclocator.io.Infra.Controllers
 {
