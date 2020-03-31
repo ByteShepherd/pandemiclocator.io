@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import {FiPlus} from 'react-icons/fi';
 
 import './styles.css';
-import Map from "../../components/Map/Map.jsx";
+import Map from "../../components/Map/Map";
 import Marker from "../../components/Map/Marker";
 import { useEffect } from "react";
 import mapIcons from '../../util/mapIcons';
