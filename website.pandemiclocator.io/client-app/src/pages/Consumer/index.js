@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
+import {FiPlus} from 'react-icons/fi';
 
+import './styles.css';
 import Map from "../../components/Map/Map.jsx";
 import Marker from "../../components/Map/Marker";
 import { useEffect } from "react";
@@ -13,6 +16,8 @@ export default function Consumer() {
     const [deaths, setDeaths] = useState(0);
     const [suspects, setSuspects] = useState(0);
     const [confirmeds, setConfirmeds] = useState(0);
+
+    const history = useHistory();
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -64,9 +69,14 @@ export default function Consumer() {
         setConfirmeds(confirmedSum);
     }
 
+    function handleNewIncident(e) {
+        e.preventDefault();
+        history.push('/incidents/new')
+    }
+
     return (
         <div>
-            <h1>PANDEMIC LOCATOR</h1>
+            <div className="pandemic-title">PANDEMIC LOCATOR</div>
             <p>Este mapa mostra os casos de COVID-19 num raio de 30 km</p>
             <div className="inline-box">
                 <div>
@@ -100,6 +110,11 @@ export default function Consumer() {
                     />
                 ))}
             </Map>
+
+            <button onClick={handleNewIncident}>
+                <FiPlus size={16} color="#e02041" />
+                Relatar incidente
+            </button>
         </div>
     );
 }
