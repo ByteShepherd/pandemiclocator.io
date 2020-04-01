@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\pandemiclocator.io.database.abstractions\pandemiclocator.io.database.abstractions.csproj" />
+    <ProjectReference Include="..\pandemiclocator.io.model.abstractions\pandemiclocator.io.model.abstractions.csproj" />
     <ProjectReference Include="..\pandemiclocator.io.queue.abstractions\pandemiclocator.io.queue.abstractions.csproj" />
   </ItemGroup>
 
