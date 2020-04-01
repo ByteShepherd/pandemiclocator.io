@@ -15,15 +15,13 @@
 * Updating my cloud experience in Azure to start using AWS
 * Practicing queues using RabbitMQ
 * Practicing cache using Redis
-* Practicing NoSQL DB using DynamoDB
+* Practicing geographic calculations using PostGIS and PostgreSQL
 * Practicing heavy load techniques in code (async, cache, queues, circuit breaker) and hosting (LB, routes, gateways)
-* Practicing geografic routines/algorithms necessary for the illness map
 * Practing CI/CD using GitLab for DevOps
 
 ## Current Doubts
 * Need a review in lifecycle of objects injected from IoC
-* Best way to use DynamoDB in storing geographic location for better calculations in illness map.
-* How to build the illness map using the current location provided by the browser.
+* Best way to use PostGIS for calculations in illness map.
 * How to accept anonymous health report and at the same time avoid accepting too many from the same reporter (person)
 * Hot to use dotNet Core's health report to link to the load balancer and don't need to implement HealthReport/HealthCheck
 
@@ -44,12 +42,6 @@
   },
   "AllowedHosts": "*",
 
-  "DynamoDbConnection": {
-    "AccessKey": "<YOUR_INFO>",
-    "SecretKey": "<YOUR_INFO>",
-    "System": "<YOUR_INFO> example: us-east-1"
-  },
-
   "QueueConnection": {
     "HostName": "<YOUR_IP>",
     "Port": 5672,
@@ -58,6 +50,7 @@
   },
 
   "ConnectionStrings": {
+    "PandemicDatabase": "Server=127.0.0.1;Port=5432;Database=pandemic;Userid=<USER>;Password=<PWD>;Pooling=true;MinPoolSize=1;MaxPoolSize=1024;",
     "RedisConnection": "<YOUR_IP>:6379"
   }
 }
