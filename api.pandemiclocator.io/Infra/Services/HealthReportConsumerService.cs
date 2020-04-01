@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -86,7 +87,8 @@ namespace api.pandemiclocator.io.Infra.Services
                     try
                     {
                         using var command = connection.NewCommand();
-                        command.CommandText = "INSERT INTO HEALTHREPORT FIELDS(IDENTIFIER, QUANTITY, STATUS, SOURCE, LATITUDE, LONGITUDE, WHEN) VALUES(@IDENTIFIER, @QUANTITY, @STATUS, @SOURCE, @LATITUDE, @LONGITUDE,@WHEN)";
+                        command.CommandText = "INSERT INTO HEALTHREPORT VALUES(@ID, @IDENTIFIER, @QUANTITY, @STATUS, @SOURCE, @LATITUDE, @LONGITUDE, @WHEN)";
+                        command.Parameters.Add("ID", NpgsqlDbType.Uuid).Value = Guid.NewGuid();
                         command.Parameters.Add("IDENTIFIER", NpgsqlDbType.Varchar).Value = contentObject.Identifier;
                         command.Parameters.Add("QUANTITY", NpgsqlDbType.Integer).Value = contentObject.Quantity;
                         command.Parameters.Add("STATUS", NpgsqlDbType.Integer).Value = (int)contentObject.Status;
@@ -94,6 +96,8 @@ namespace api.pandemiclocator.io.Infra.Services
                         command.Parameters.Add("LATITUDE", NpgsqlDbType.Double).Value = contentObject.Latitude;
                         command.Parameters.Add("LONGITUDE", NpgsqlDbType.Double).Value = contentObject.Longitude;
                         command.Parameters.Add("WHEN", NpgsqlDbType.TimestampTz).Value = contentObject.When;
+                        command.Prepare();
+                        command.CommandType = CommandType.Text;
                         var affectedRecords = command.ExecuteNonQuery();
                         return (affectedRecords == 1, affectedRecords == 1 ? null : new NpgsqlException("Unexpected affected records number"));
                     }

@@ -1,6 +1,6 @@
 ﻿create table if not exists healthreport
 (
-	id uuid default (md5(((random())::text || (clock_timestamp())::text)))::uuid not null
+	id uuid not null
 		constraint healthreport_pk
 			primary key,
 	identifier varchar not null,
