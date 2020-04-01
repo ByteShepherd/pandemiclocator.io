@@ -1,0 +1,119 @@
+import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
+import {FiPlus} from 'react-icons/fi';
+
+import Map from "../../components/Map/Map";
+import Marker from "../../components/Map/Marker";
+import { useEffect } from "react";
+import mapIcons from '../../util/mapIcons';
+import mapIconEnum from '../../util/mapIconEnum';
+
+import api from '../../services/api';
+
+export default function HealthReport() {
+    const [markers, setMarkers] = useState([]);
+    const [deaths, setDeaths] = useState(0);
+    const [suspects, setSuspects] = useState(0);
+    const [confirmeds, setConfirmeds] = useState(0);
+
+    const history = useHistory();
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                loadIncidents(latitude, longitude);
+            }, (err) => {
+                console.log(err);
+            }, {
+            timeout: 30000,
+        }
+        );
+    }, []);
+
+    async function loadIncidents(lat, lng) {
+        if (!lat && !lng)
+            return;
+
+        const response = await api.get(`pandemic?lat=${lat}&lng=${lng}`);
+
+        const current = response.data.push({
+            id: 1,
+            title: 'Você está aqui',
+            lat: lat,
+            lng: lng,
+            type: mapIconEnum.current
+        });
+
+        setMarkers([...markers, ...[current], ...response.data]);
+    }
+
+    useEffect(() => calculate(), [markers]);
+
+    function calculate() {
+        var deathsSum = markers.filter(x => x.type === mapIconEnum.death).reduce((sum, data) => {
+            return sum + data.qtd;
+        }, 0);
+
+        var suspectsSum = markers.filter(x => x.type === mapIconEnum.suspect).reduce((sum, data) => {
+            return sum + data.qtd;
+        }, 0);
+
+        var confirmedSum = markers.filter(x => x.type === mapIconEnum.confirmed).reduce((sum, data) => {
+            return sum + data.qtd;
+        }, 0);
+
+        setDeaths(deathsSum);
+        setSuspects(suspectsSum);
+        setConfirmeds(confirmedSum);
+    }
+
+    function handleNewIncident(e) {
+        e.preventDefault();
+        history.push('/incidents/new')
+    }
+
+    return (
+        <div>
+            <div className="pandemic-title">PANDEMIC LOCATOR</div>
+            <p>Este mapa mostra os casos de COVID-19 num raio de 30 km</p>
+            <div className="inline-box">
+                <div>
+                    <img align="left" src={mapIcons.find(x => x.type === mapIconEnum.death).url} alt="Mortes" />
+                    <label>{deaths} mortes pelo COVID</label>
+                </div>
+                <div>
+                    <img align="left" src={mapIcons.find(x => x.type === mapIconEnum.suspect).url} alt="Casos suspeitos" />
+                    <label>{suspects} casos suspeitos</label>
+                </div>
+                <div>
+                    <img align="left" src={mapIcons.find(x => x.type === mapIconEnum.confirmed).url} alt="Casos confirmados" />
+                    <label>{confirmeds} casos confirmados</label>
+                </div>
+            </div>
+            
+            <Map
+                zoom={10}
+                center={{ lat: -26.9206069, lng: -49.0766607 }}
+                events={{ onBoundsChangerd: () => { } }}
+            >
+                {markers.filter(x => x.lat && x.lng).map((m, index) => (
+                    <Marker
+                        key={index}
+                        title={m.title}
+                        position={{ lat: m.lat, lng: m.lng }}
+                        type={m.type}
+                        events={{
+                            onClick: () => window.alert(`${m.id}`)
+                        }}
+                    />
+                ))}
+            </Map>
+
+            <button onClick={handleNewIncident}>
+                <FiPlus size={16} color="#e02041" />
+                Relatar incidente
+            </button>
+        </div>
+    );
+}
