@@ -46,7 +46,7 @@ export default function NewIncident() {
         try {
             await api.post('incident', data);
 
-            history.push('/');
+            history.push('/map');
         } catch (err) {
             alert('Erro ao cadastrar incidente');
         }
@@ -60,7 +60,7 @@ export default function NewIncident() {
                     <h1>Cadastrar novo incidente</h1>
                     <p>Informe se é uma suspeita, caso confirmado ou morte por COVID-19</p>
 
-                    <Link className="back-link" to="/">
+                    <Link className="back-link" to="/map">
                         <FiArrowLeft size={16} color="#e02041" />
                         Voltar para o início
                     </Link>
