@@ -49,7 +49,7 @@
   },
 
   "ConnectionStrings": {
-    "PandemicDatabase": "Server=127.0.0.1;Port=5432;Database=pandemic;Userid=<USER>;Password=<PWD>;Pooling=true;MinPoolSize=1;MaxPoolSize=1024;",
+    "PandemicDatabase": "Server=<YOUR_IP>;Port=5432;Database=pandemic;Userid=<USER>;Password=<PWD>;Pooling=true;MinPoolSize=1;MaxPoolSize=1024;",
     "RedisConnection": "<YOUR_IP>:6379"
   }
 }
