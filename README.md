@@ -26,8 +26,7 @@
 * Hot to use dotNet Core's health report to link to the load balancer and don't need to implement HealthReport/HealthCheck
 
 ## To setup your backend environment you will need:
-* An AWS account for creating dynamoDB (I don't know a way to setup locally)
-* A local Docker for Redis and Rabbit
+* A local Docker for Postgres, Redis and Rabbit
 * Create your appsettings to start using the API
 
 ## Example of appsettings.json
