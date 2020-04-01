@@ -1,4 +1,4 @@
-﻿namespace pandemiclocator.io.database.abstractions.Enums
+﻿namespace pandemiclocator.io.model.abstractions
 {
     public enum HealthStatus
     {

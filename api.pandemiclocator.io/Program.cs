@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.pandemiclocator.io.Infra.Initializators;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,16 +17,7 @@ namespace api.pandemiclocator.io
     {
         public static async Task Main(string[] args)
         {
-            using (var host = CreateHostBuilder(args).Build())
-            {
-                using (var scope = host.Services.CreateScope())
-                {
-                    var config = scope.ServiceProvider.GetRequiredService<IDynamoDbConfiguration>();
-                    await DynamoInitializator.Initialize(config, CancellationToken.None);
-                }
-
-                await host.RunAsync();
-            }
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using pandemiclocator.io.database.abstractions;
+using pandemiclocator.io.model.abstractions;
 using pandemiclocator.io.queue.abstractions;
 
 namespace pandemiclocator.io.queue

@@ -14,17 +14,13 @@ namespace pandemiclocator.io.environment
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    client.Timeout = TimeSpan.FromSeconds(3);
+                using var client = new HttpClient {Timeout = TimeSpan.FromSeconds(3)};
+                var response = string.IsNullOrEmpty(route)
+                    ? client.GetAsync(AwsMetadataUri).Result
+                    : client.GetAsync(string.Concat(AwsMetadataUri, route)).Result;
 
-                    var response = string.IsNullOrEmpty(route)
-                        ? client.GetAsync(AwsMetadataUri).Result
-                        : client.GetAsync(string.Concat(AwsMetadataUri, route)).Result;
-
-                    var metadata = response.StatusCode == HttpStatusCode.OK ? response.Content.ReadAsStringAsync().Result : string.Empty;
-                    return (response.StatusCode, metadata);
-                }
+                var metadata = response.StatusCode == HttpStatusCode.OK ? response.Content.ReadAsStringAsync().Result : string.Empty;
+                return (response.StatusCode, metadata);
             }
             catch (Exception ex)
             {
