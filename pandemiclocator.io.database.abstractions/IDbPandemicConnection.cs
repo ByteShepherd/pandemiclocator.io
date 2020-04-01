@@ -7,6 +7,8 @@ namespace pandemiclocator.io.database.abstractions
 {
     public interface IDbPandemicConnection : IDisposable
     {
-        NpgsqlConnection Connection { get; }
+        void Open();
+        NpgsqlCommand NewCommand();
+        void Close();
     }
 }

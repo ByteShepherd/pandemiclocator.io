@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using NpgsqlTypes;
 using pandemiclocator.io.database;
 using pandemiclocator.io.database.abstractions;
 using pandemiclocator.io.model.abstractions;
@@ -23,11 +25,13 @@ namespace api.pandemiclocator.io.Infra.Services
     //Fonte: https://www.c-sharpcorner.com/article/consuming-rabbitmq-messages-in-asp-net-core/
     public class HealthReportConsumerService : BackgroundService
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly IHealthReportFactoryProvider _healthReportFactoryProvider;
         private readonly ILogger _logger;
 
-        public HealthReportConsumerService(ILoggerFactory loggerFactory, IHealthReportFactoryProvider healthReportFactoryProvider)
+        public HealthReportConsumerService(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IHealthReportFactoryProvider healthReportFactoryProvider)
         {
+            _serviceProvider = serviceProvider;
             _healthReportFactoryProvider = healthReportFactoryProvider;
             _logger = loggerFactory.CreateLogger<HealthReportConsumerService>();
         }
@@ -75,27 +79,33 @@ namespace api.pandemiclocator.io.Infra.Services
                     return (false, new InvalidDataException("A non-empty event of type HealthReport was expected."));
                 }
 
-                //TODO:
-                //try
-                //{
-                //    using (var context = new DynamoDbProvider(_dynamoConfiguration))
-                //    {
-                //        try
-                //        {
-                //            var dynamoCall = context.SaveAsync(contentObject, _stoppingToken);
-                //            dynamoCall.Wait(_stoppingToken);
-                //            return (true, null);
-                //        }
-                //        catch (Exception err)
-                //        {
-                //            return (false, new ($"An error occurred on HealthReport storing. {err.Message}", err));
-                //        }
-                //    }
-                //}
-                //catch (Exception err)
-                //{
-                //    return (false, new AmazonDynamoDBException($"The HealthReport event cannot be saved on unavailable data store. {err.Message}", err));
-                //}
+                try
+                {
+                    using var connection = _serviceProvider.GetService<IDbPandemicConnection>();
+                    connection.Open();
+                    try
+                    {
+                        using var command = connection.NewCommand();
+                        command.CommandText = "INSERT INTO HEALTHREPORT FIELDS(IDENTIFIER, QUANTITY, STATUS, SOURCE, LATITUDE, LONGITUDE, WHEN) VALUES(@IDENTIFIER, @QUANTITY, @STATUS, @SOURCE, @LATITUDE, @LONGITUDE,@WHEN)";
+                        command.Parameters.Add("IDENTIFIER", NpgsqlDbType.Varchar).Value = contentObject.Identifier;
+                        command.Parameters.Add("QUANTITY", NpgsqlDbType.Integer).Value = contentObject.Quantity;
+                        command.Parameters.Add("STATUS", NpgsqlDbType.Integer).Value = (int)contentObject.Status;
+                        command.Parameters.Add("SOURCE", NpgsqlDbType.Integer).Value = (int)contentObject.Source;
+                        command.Parameters.Add("LATITUDE", NpgsqlDbType.Double).Value = contentObject.Latitude;
+                        command.Parameters.Add("LONGITUDE", NpgsqlDbType.Double).Value = contentObject.Longitude;
+                        command.Parameters.Add("WHEN", NpgsqlDbType.TimestampTz).Value = contentObject.When;
+                        var affectedRecords = command.ExecuteNonQuery();
+                        return (affectedRecords == 1, affectedRecords == 1 ? null : new NpgsqlException("Unexpected affected records number"));
+                    }
+                    catch (Exception err)
+                    {
+                        return (false, new NpgsqlException($"An error occurred on HealthReport storing. {err.Message}", err));
+                    }
+                }
+                catch (Exception err)
+                {
+                    return (false, new NpgsqlException($"The HealthReport event cannot be saved on unavailable data store. {err.Message}", err));
+                }
 
                 return (false, new NotImplementedException("To be done")); //TODO:
             }

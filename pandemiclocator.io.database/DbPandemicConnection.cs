@@ -8,12 +8,27 @@ namespace pandemiclocator.io.database
 {
     public class DbPandemicConnection : IDbPandemicConnection
     {
+        private NpgsqlConnection Connection { get; }
+
         public DbPandemicConnection(string connectionString)
         {
             Connection = new NpgsqlConnection(connectionString);
         }
 
-        public NpgsqlConnection Connection { get; }
+        public void Open()
+        {
+            Connection.Open();
+        }
+        
+        public NpgsqlCommand NewCommand()
+        {
+            return Connection.CreateCommand();
+        }
+
+        public void Close()
+        {
+            Connection.Close();
+        }
 
         public void Dispose()
         {
