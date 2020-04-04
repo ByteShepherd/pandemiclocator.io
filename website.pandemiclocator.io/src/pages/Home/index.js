@@ -11,7 +11,7 @@ export default function Home() {
                 const { latitude, longitude } = position.coords;
                 setAcesso(true);
                 if (latitude && longitude)
-                    history.push('/map');
+                    history.push('/reports');
             }, (err) => {
                 setAcesso(false);
             }, {

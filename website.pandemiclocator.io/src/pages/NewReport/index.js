@@ -7,15 +7,16 @@ import Select from 'react-select';
 
 import api from '../../services/api';
 
-export default function NewIncident() {
-    const [description, setDescription] = useState('');
+export default function NewReport() {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const [type, setType] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [status, setStatus] = useState('');
     const [items] = useState([
         { label: 'Morte', value: mapIconEnum.death },
         { label: 'Suspeita', value: mapIconEnum.suspect },
-        { label: 'Confirmado', value: mapIconEnum.confirmed }
+        { label: 'Confirmado', value: mapIconEnum.confirmed },
+        { label: 'Saudável', value: mapIconEnum.healthy }
     ]);
 
     const history = useHistory();
@@ -33,22 +34,23 @@ export default function NewIncident() {
         });
     }, []);
 
-    async function handleNewIncident(e) {
+    async function handleNewReport(e) {
         e.preventDefault();
 
         const data = {
-            type,
-            lat: latitude,
-            lng: longitude,
-            title: description
+            quantity,
+            identifier: '1',
+            status,
+            source: 0,
+            location: { latitude, longitude }
         };
         
         try {
-            await api.post('incident', data);
+            await api.post('HealthReport/NewWebReport', data);
 
-            history.push('/map');
+            history.push('/reports');
         } catch (err) {
-            alert('Erro ao cadastrar incidente');
+            alert('Erro ao reportar caso');
         }
     }
 
@@ -57,18 +59,25 @@ export default function NewIncident() {
             <div className="content">
                 <section>
                     <div className="pandemic-title-black">PANDEMIC LOCATOR</div>
-                    <h1>Cadastrar novo incidente</h1>
-                    <p>Informe se é uma suspeita, caso confirmado ou morte por COVID-19</p>
+                    <h1>Reportar novo caso</h1>
+                    <p>Informe o tipo do caso, a quantidade de pessoas e a localização</p>
 
-                    <Link className="back-link" to="/map">
+                    <Link className="back-link" to="/reports">
                         <FiArrowLeft size={16} color="#e02041" />
                         Voltar para o início
                     </Link>
                 </section>
                 <form>
                     <div className="select">
-                        <Select options={items} onChange={e => setType(e.value)} />
+                        <Select options={items} onChange={e => setStatus(e.value)} />
                     </div>
+                    <input
+                        type="number"
+                        placeholder="Quantidade"
+                        min={1}
+                        value={quantity}
+                        onChange={e => setQuantity(e.target.value)}
+                    />
                     <input
                         type="text"
                         placeholder="Latitude"
@@ -81,12 +90,7 @@ export default function NewIncident() {
                         value={longitude}
                         onChange={e => setLongitude(e.target.value)}
                     />
-                    <textarea
-                        placeholder="Descrição"
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    />
-                    <button className="button" onClick={handleNewIncident}>Cadastrar</button>
+                    <button className="button" onClick={handleNewReport}>Cadastrar</button>
                 </form>
             </div>
         </div>

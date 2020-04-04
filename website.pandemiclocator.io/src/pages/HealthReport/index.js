@@ -140,7 +140,7 @@ export default function HealthReport() {
                 ))}
             </Map>
 
-            <button onClick={() => history.push('/incidents/new')}>
+            <button onClick={() => history.push('/reports/new')}>
                 <FiPlus size={16} color="#e02041" />
                 Relatar incidente
             </button>
