@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.pandemiclocator.io", "api.pandemiclocator.io\api.pandemiclocator.io.csproj", "{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "website.pandemiclocator.io", "website.pandemiclocator.io\website.pandemiclocator.io.csproj", "{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{5A44D8C2-8D7F-4CF7-A6D7-66AD40A942B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs_abstractions", "libs_abstractions", "{D1085C32-A91F-4037-AFD4-3CFA920CB743}"
@@ -29,11 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pandemiclocator.io.queue.ab
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_servers", "_servers", "{BB7C4DC8-F848-43CF-8F4B-5AD2610437EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pandemiclocator.io.model.abstractions", "pandemiclocator.io.model.abstractions\pandemiclocator.io.model.abstractions.csproj", "{9B93B4AE-0FDE-45DE-B748-B2485A54FA5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pandemiclocator.io.model.abstractions", "pandemiclocator.io.model.abstractions\pandemiclocator.io.model.abstractions.csproj", "{9B93B4AE-0FDE-45DE-B748-B2485A54FA5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pandemiclocator.io.services.abstractions", "pandemiclocator.io.services.abstractions\pandemiclocator.io.services.abstractions.csproj", "{93B439E7-49C4-4CC5-8BDB-50B807471985}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pandemiclocator.io.services.abstractions", "pandemiclocator.io.services.abstractions\pandemiclocator.io.services.abstractions.csproj", "{93B439E7-49C4-4CC5-8BDB-50B807471985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pandemiclocator.io.services", "pandemiclocator.io.services\pandemiclocator.io.services.csproj", "{C69E1FD8-74DC-456D-B8D7-51CD58722C7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pandemiclocator.io.services", "pandemiclocator.io.services\pandemiclocator.io.services.csproj", "{C69E1FD8-74DC-456D-B8D7-51CD58722C7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +43,6 @@ Global
 		{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D4352374-3407-4EC5-8FDA-200B416E6F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4352374-3407-4EC5-8FDA-200B416E6F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4352374-3407-4EC5-8FDA-200B416E6F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,7 +93,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E6E6E8FD-11B9-4E16-8CA1-8E9F30F3D45C} = {BB7C4DC8-F848-43CF-8F4B-5AD2610437EC}
-		{A7068E91-CEB1-4D0A-BF53-98D26AE765AC} = {BB7C4DC8-F848-43CF-8F4B-5AD2610437EC}
 		{D4352374-3407-4EC5-8FDA-200B416E6F02} = {5A44D8C2-8D7F-4CF7-A6D7-66AD40A942B6}
 		{5255BEDE-699F-43C3-BA2D-70F6D4AF1331} = {5A44D8C2-8D7F-4CF7-A6D7-66AD40A942B6}
 		{1C82B28F-D459-4C86-B7A0-CAF4E7D955FC} = {5A44D8C2-8D7F-4CF7-A6D7-66AD40A942B6}
