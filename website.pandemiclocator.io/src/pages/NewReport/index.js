@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import './styles.css';
 import { FiArrowLeft } from 'react-icons/fi';
 import mapIconEnum from '../../util/mapIconEnum';
-import Select from 'react-select';
+import sourceEnum from '../../util/sourceEnum';
 
 import api from '../../services/api';
 
@@ -11,13 +11,8 @@ export default function NewReport() {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [quantity, setQuantity] = useState(1);
-    const [status, setStatus] = useState('');
-    const [items] = useState([
-        { label: 'Morte', value: mapIconEnum.death },
-        { label: 'Suspeita', value: mapIconEnum.suspect },
-        { label: 'Confirmado', value: mapIconEnum.confirmed },
-        { label: 'Saudável', value: mapIconEnum.healthy }
-    ]);
+    const [status, setStatus] = useState(mapIconEnum.death);
+    const [source, setSource] = useState(sourceEnum.self);
 
     const history = useHistory();
 
@@ -40,8 +35,8 @@ export default function NewReport() {
         const data = {
             quantity,
             identifier: '1',
-            status,
-            source: 0,
+            status: parseInt(status),
+            source: parseInt(source),
             location: { latitude, longitude }
         };
         
@@ -68,9 +63,19 @@ export default function NewReport() {
                     </Link>
                 </section>
                 <form>
-                    <div className="select">
-                        <Select options={items} onChange={e => setStatus(e.value)} />
-                    </div>
+                    <select onChange={e => setStatus(e.target.value)}>
+                        <option value={mapIconEnum.death}>Morte</option>
+                        <option value={mapIconEnum.suspect}>Suspeita</option>
+                        <option value={mapIconEnum.confirmed}>Confirmad</option>
+                        <option value={mapIconEnum.healthy}>Saudável</option>
+                    </select>
+                    <select onChange={e => setSource(e.target.value)}>
+                        <option value={sourceEnum.self}>Você</option>
+                        <option value={sourceEnum.familiar}>Familiar</option>
+                        <option value={sourceEnum.friend}>Amigo</option>
+                        <option value={sourceEnum.coworker}>Colega do trabalho</option>
+                        <option value={sourceEnum.stranger}>Pessoa desconhecida</option>
+                    </select>
                     <input
                         type="number"
                         placeholder="Quantidade"
