@@ -72,8 +72,16 @@ namespace api.pandemiclocator.io.Controllers
         //}
 
         [HttpGet]
-        public async Task<PandemicResponse<PandemicReport[]>> GetReportsNearBy(ListHealthReportNearByCommand command, CancellationToken cancellationToken)
+        public async Task<PandemicResponse<PandemicReport[]>> GetReportsNearBy(double latitude, double longitude, CancellationToken cancellationToken)
         {
+            ListHealthReportNearByCommand command = new ListHealthReportNearByCommand()
+            {
+                Location = new ReportLocation()
+                {
+                    Latitude = latitude,
+                    Longitude = longitude
+                }
+            };
             PandemicReport[] response = null;
             if (command == null || !TryValidateModel(command, nameof(command)))
             {
