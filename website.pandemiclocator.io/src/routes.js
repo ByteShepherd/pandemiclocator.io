@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import NewIncident from './pages/NewIncident';
+import NewReport from './pages/NewReport';
 import HealthReport from './pages/HealthReport';
 import Home from './pages/Home';
 
@@ -10,8 +10,8 @@ export default function Routes() {
         <BrowserRouter>
         <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/map" exact component={HealthReport} />
-            <Route path="/incidents/new" component={NewIncident} />
+            <Route path="/reports" exact component={HealthReport} />
+            <Route path="/reports/new" component={NewReport} />
         </Switch>
         </BrowserRouter>
     );

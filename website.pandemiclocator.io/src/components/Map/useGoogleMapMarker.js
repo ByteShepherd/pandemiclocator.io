@@ -30,7 +30,7 @@ export default function useGoogleMapMarker({
     Object.keys(events).forEach(eventName =>
       marker.addListener(eventMapping[eventName], events[eventName])
     );
-
+    
     if (type === mapIconEnum.current)
       createCentralCircle(map, marker);
     
@@ -44,9 +44,7 @@ export default function useGoogleMapMarker({
     maps.Marker]);
 
   function getIcon(type) {
-    if (!type || type === mapIconEnum.default)
-      return mapIcons.find(x => x.type === mapIconEnum.default).url;
-    return mapIcons.find(x => x.type === type).url;
+    return mapIcons.find(x => x.status === type).url;
   }
 
   function createCentralCircle(map, marker) {

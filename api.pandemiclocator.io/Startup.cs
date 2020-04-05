@@ -147,6 +147,10 @@ namespace api.pandemiclocator.io
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
         {
+            app.UseCors(CorsPolicy)
+               .UseRequestLocalization()
+               /*TODO:.UseExceptionHandler()*/;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -159,10 +163,6 @@ namespace api.pandemiclocator.io
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
-            app.UseCors(CorsPolicy)
-                .UseRequestLocalization()
-                /*TODO:.UseExceptionHandler()*/;
 
             applicationLifetime.ApplicationStarted.Register(OnStarted);
             applicationLifetime.ApplicationStopping.Register(OnShuttingdown);
